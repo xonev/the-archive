@@ -8,11 +8,16 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'paredit.vim'
-Bundle 'surround.vim'
+"Bundle 'paredit.vim'
+Bundle 'tpope/vim-sexp-mappings-for-regular-people'
+Bundle 'guns/vim-sexp'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fireplace'
 Bundle 'guns/vim-clojure-static'
 Bundle 'scratch.vim'
+Bundle 'jtratner/vim-flavored-markdown'
+Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Copy and cut to system clipboard
 vmap <C-x> :!pbcopy<CR>
@@ -64,7 +69,7 @@ let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_max_files = 0
 
 " Custom ctrlp ignores
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|target'
 
 " Change cursor to a line when in insert mode and a block when in command mode
 "if exists('$TMUX')
@@ -95,11 +100,14 @@ set hlsearch
 " Sane colors for autocomplete
 :highlight Pmenu ctermbg=238 gui=bold
 
-" Line numbers
-:set number
-
 " VimClojure settings
 let vimclojure#FuzzyIndent = 1
 
 " Make <Leader> ,
 let mapleader = ","
+
+" Vim-flavored-markdown settings
+augroup markdown
+    au!
+    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END

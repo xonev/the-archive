@@ -1,18 +1,27 @@
+set nocompatible
 " Required for vundle
 filetype off
 
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
 " Active bundles
-Bundle 'tpope/vim-fugitive'
-Bundle 'ervandew/supertab'
-Bundle 'kien/ctrlp.vim'
-Bundle 'mileszs/ack.vim'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'paredit.vim'
-Bundle 'surround.vim'
-Bundle 'tpope/vim-fireplace'
-Bundle 'guns/vim-clojure-static'
-Bundle 'scratch.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'ervandew/supertab'
+Plugin 'kien/ctrlp.vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'surround.vim'
+Plugin 'tpope/vim-sexp-mappings-for-regular-people'
+Plugin 'guns/vim-sexp'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-fireplace'
+Plugin 'guns/vim-clojure-static'
+Plugin 'scratch.vim'
+
+call vundle#end()
+filetype plugin indent on
 
 " Copy and cut to system clipboard
 vmap <C-x> :!pbcopy<CR>
@@ -28,7 +37,7 @@ autocmd BufWritePre * :%s/\s\+$//e
 set autoindent
 
 " Tab configuration
-set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 filetype plugin indent on
 
 " Backspace configuration

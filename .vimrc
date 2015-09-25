@@ -73,7 +73,7 @@ let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_max_files = 0
 
 " Custom ctrlp ignores
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|target'
 
 " Change cursor to a line when in insert mode and a block when in command mode
 "if exists('$TMUX')
@@ -104,11 +104,14 @@ set hlsearch
 " Sane colors for autocomplete
 :highlight Pmenu ctermbg=238 gui=bold
 
-" Line numbers
-:set number
-
 " VimClojure settings
 let vimclojure#FuzzyIndent = 1
 
 " Make <Leader> ,
 let mapleader = ","
+
+" Vim-flavored-markdown settings
+augroup markdown
+    au!
+    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END

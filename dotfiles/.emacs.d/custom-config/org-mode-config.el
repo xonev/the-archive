@@ -27,21 +27,23 @@
 ;; https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html)
 (define-key global-map "\C-cc" 'org-capture)
 
-(setq org-agenda-files '("~/workspace/org/inbox.org"
-                         "~/workspace/org/gtd.org"
-                         "~/workspace/org/tickler.org"))
+(defun org-filename (filename)
+  (concat default-directory "../../../private/org/" filename))
 
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline "~/workspace/org/inbox.org" "Tasks")
+(setq org-agenda-files `(,(org-filename "gtd.org")
+                         ,(org-filename "tickler.org")))
+
+(setq org-capture-templates `(("t" "Todo [inbox]" entry
+                               (file+headline ,(org-filename "inbox.org") "Tasks")
                                "* TODO %i%?")
                               ("T" "Tickler" entry
-                               (file+headline "~/workspace/org/tickler.org" "Tickler")
+                               (file+headline ,(org-filename "tickler.org") "Tickler")
                                "* %i%? \n %U")))
 
-(setq org-refile-targets '(("~/workspace/org/gtd.org" :maxlevel . 3)
-                           ("~/workspace/org/someday.org" :level . 1)
-                           ("~/workspace/org/tickler.org" :maxlevel . 2)
-                           ("~/workspace/org/reference.org" :level . 1)))
+(setq org-refile-targets `((,(org-filename "gtd.org") :maxlevel . 3)
+                           (,(org-filename "someday.org") :level . 1)
+                           (,(org-filename "tickler.org") :maxlevel . 2)
+                           (,(org-filename "reference.org") :level . 1)))
 
 ;; Allow sorting by priority and by current status
 (require 'cl-lib)

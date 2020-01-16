@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x
 
 if [ $# -eq 0 ]; then
   echo attaching to most recent session
@@ -10,7 +11,7 @@ else
   else
     echo attaching to or creating: $1
     tmux a -t $1 \
-      || [ -f "~/.tmux/setup_$1.sh" ] && ~/.tmux/setup_$1.sh \
+      || [ -f "$HOME/.tmux/setup_$1.sh" ] && ~/.tmux/setup_$1.sh \
       || tmux new-session -s $1
   fi
 fi

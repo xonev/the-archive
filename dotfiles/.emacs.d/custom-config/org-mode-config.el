@@ -1,9 +1,13 @@
 ;; Enable org-mode
 (require 'org)
 
+;; turn off auto-fill for org-mode
+(add-hook 'org-mode-hook 'turn-off-auto-fill)
+
 ;; Make org-mode work with files ending in .org
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;; The above is the default in recent emacsen
+
 
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-clock-persist 'history)
@@ -27,18 +31,23 @@
 ;; https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html)
 (define-key global-map "\C-cc" 'org-capture)
 
+(setq org-directory "/Users/soxley/workspace/the-archive/private/org/")
+
 (defun org-filename (filename)
-  (concat default-directory "../../../private/org/" filename))
+  (concat org-directory filename))
 
 (setq org-agenda-files `(,(org-filename "gtd.org")
                          ,(org-filename "tickler.org")))
 
 (setq org-capture-templates `(("t" "Todo [inbox]" entry
-                               (file+headline ,(org-filename "inbox.org") "Tasks")
+                               (file+headline ,(org-filename "gtd.org") "Inbox")
                                "* TODO %i%?")
                               ("T" "Tickler" entry
                                (file+headline ,(org-filename "tickler.org") "Tickler")
-                               "* %i%? \n %U")))
+                               "* %i%? \n %U")
+                              ("r" "Reference" entry
+                               (file+headline ,(org-filename "reference.org") "Notes")
+                               "* %i%?")))
 
 (setq org-refile-targets `((,(org-filename "gtd.org") :maxlevel . 3)
                            (,(org-filename "someday.org") :level . 1)

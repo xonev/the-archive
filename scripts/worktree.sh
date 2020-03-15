@@ -45,7 +45,7 @@ function createWorkspace {
   echo "Creating in directory $directory..."
 
   tmux new-session -d -c $directory -s $session bash
-  tmux rename-window -t $session:1 servers
+  tmux rename-window -t $session servers
   tmux send-keys -t $session:servers "cd $directory" C-m
 
   tmux split-window -h -t $session:servers bash

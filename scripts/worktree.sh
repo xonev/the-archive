@@ -1,9 +1,10 @@
 #!/bin/bash
 
+initials=$WORKTREE_INITIALS
+directoryPrefix=$WORKTREE_DIRECTORY_PREFIX
+developSession=$WORKTREE_DEVELOP_SESSION
+
 set +x
-initials="sajo"
-directoryPrefix=/Users/soxley/workspace/seeq/crab
-developSession=develop
 
 if [ -z "$*" ]; then
   echo "Usage:"
@@ -16,19 +17,28 @@ if [ -z "$*" ]; then
   echo "  worktree checkout [branch] [name]"
   echo "    Check out the named branch in a new Git worktree, start a Tmux"
   echo "    session for it, and build it for the first time."
-  echo "  worktree remote-checkout [originBranch] [name]"
-  echo "    Check out a new branch based on the given branch in origin, start a"
-  echo "    Tmux session for it, and build it for the first time."
   echo "  worktree start [directory] [name]"
   echo "    Start a Tmux session for an existing Git worktree directory."
+  echo "  worktree servers [sessionName]"
+  echo "    Create a window with the standard server panes."
   echo "  worktree env"
   echo "    Load the installed environments for the given session."
   echo "  worktree build-from-scratch"
-  echo "    Install dependencies and build a worktree for the first time."
+  echo "    Install, build, and launch IDE"
   echo "  worktree build-first-time"
-  echo "    Trigger a top-level build of the workspace."
-  echo "  worktree update-sdk [session-name]"
-  echo "    Trigger a top-level build of the workspace."
+  echo "    Build and launch IDE"
+  echo "  worktree build"
+  echo "    Start a top-level build of the workspace."
+  echo "  worktree ide [sessionName]"
+  echo "    Run 'sq ide' from the top-level crab directory."
+  echo "  worktree update-sdk [sessionName]"
+  echo "    Start a top-level build of the workspace."
+  echo "  worktree db"
+  echo "    Run 'sq db client' in a new window."
+  echo "  worktree bitbucket"
+  echo "    Open the current branch on BitBucket."
+  echo "  worktree run"
+  echo "    Run everything."
   echo "  worktree destroy"
   echo "    Remove the current worktree and close this Tmux session."
   exit 0
@@ -38,14 +48,17 @@ function currentSession {
   tmux display-message -p '#S'
 }
 
-function createWorkspace {
-  directory=$1
-  session=$2
+function sessionOrCurrent {
+    if [ -z "$1" ]; then
+      currentSession
+    else
+      echo $1
+    fi
+}
 
-  echo "Creating in directory $directory..."
+function createServersWindow {
+  session=$1
 
-  tmux new-session -d -c $directory -s $session bash
-  tmux rename-window -t $session servers
   tmux send-keys -t $session:servers "cd $directory" C-m
 
   tmux split-window -h -t $session:servers bash
@@ -66,7 +79,15 @@ function createWorkspace {
   tmux send-keys -t $session:servers "cd $directory/webserver" C-m
 
   tmux select-layout -t $session:servers tiled
+}
 
+function createWorkspace {
+  directory=$1
+  session=$2
+
+  tmux new-session -d -c $directory -s $session bash
+  tmux rename-window -t $session servers
+  createServersWindow $session
   tmux switch-client -t $session
 }
 
@@ -123,22 +144,24 @@ case $1 in
 
     git worktree add $directoryPrefix-$name $branch
     createWorkspace $directoryPrefix-$name $name
-    buildFromScratch $name
-    ;;
-  remote-checkout)
-    branch=$2
-    name=$3
-
-    git branch "$branch" "origin/$branch"
-    git worktree add $directoryPrefix-$name "$branch"
-    createWorkspace $directoryPrefix-$name $name
-    buildFromScratch $name
+    tmux switch-client -t $name:9
     ;;
   start)
     directory=$2
-    name=$3
+    if [ -z "$3" ]; then
+      name=$directory
+    else
+      name=$3
+    fi
 
     createWorkspace $(realpath $2) $name
+    ;;
+  servers)
+    directory=$(pwd)
+    session=$(sessionOrCurrent $2)
+
+    tmux new-window -t $session -n servers -c $directory bash
+    createServersWindow $(sessionOrCurrent $2)
     ;;
   env)
     session=$(currentSession)
@@ -151,27 +174,51 @@ case $1 in
     tmux send-keys -t $session:servers.5 ". environment" C-m
     ;;
   build-from-scratch)
-     buildFromScratch $(currentSession)
+    buildFromScratch $(currentSession)
     ;;
   build-first-time)
     tmux send-keys -t $(currentSession):servers.0 "sq build -f && sq image -n && sq ide" C-m
     ;;
+  build)
+    tmux send-keys -t $(currentSession):servers.0 "sq build -f && sq image -n" C-m
+    ;;
+  ide)
+    session=$(sessionOrCurrent $2)
+
+    tmux send-keys -t $session:servers.0 "sq ide" C-m
+    ;;
   update-sdk)
+    session=$(sessionOrCurrent $2)
     directory=$(pwd)
-    if [ -z "$2" ]; then
-      session=$(currentSession)
-    else
-      session=$2
-    fi
+
     tmux new-window -t $session -n update-sdk -c $directory
     tmux send-keys -t $session:update-sdk "bash -c 'cd appserver && . environment && sq build -f' && bash -c 'cd sdk && . environment && sq build -f'" C-m
+    ;;
+  run)
+    session=$(sessionOrCurrent $2)
+
+    tmux send-keys -t $session:servers.1 "sq db start" C-m
+    tmux send-keys -t $session:servers.2 "sq run --appserverOnly" C-m
+    tmux send-keys -t $session:servers.3 "sq run" C-m
+    tmux send-keys -t $session:servers.4 "grunt server" C-m
+    tmux send-keys -t $session:servers.5 "sq run" C-m
+    ;;
+  db)
+    session=$(currentSession)
+    directory=$(pwd)
+
+    tmux new-window -t $session -n db -c $directory
+    tmux send-keys -t $session:db "bash -c 'cd appserver && . environment && sq db client'" C-m
+    ;;
+  bitbucket)
+    open https://bitbucket.org/seeq12/crab/branch/$(git rev-parse --abbrev-ref HEAD)
     ;;
   destroy)
     path=$(pwd)
     session=$(currentSession)
 
     tmux switch-client -t $developSession
-    tmux send-keys -t $developSession "git worktree remove $path" C-m
+    git worktree remove $path
     tmux kill-session -t $session
     ;;
 esac

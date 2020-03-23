@@ -10,4 +10,5 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
-client_credentials.edn
+client_credentials.json
+/tokens

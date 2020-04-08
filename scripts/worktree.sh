@@ -101,7 +101,7 @@ case $1 in
   feature)
     name=$2
     crab=$3
-    branch=feature/$initials/$name-CRAB-$crab
+    branch=feature2/$initials/$name-CRAB-$crab
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -111,7 +111,7 @@ case $1 in
   fix)
     name=$2
     crab=$3
-    branch=bugfix/$initials/$name-CRAB-$crab
+    branch=bugfix2/$initials/$name-CRAB-$crab
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -121,7 +121,7 @@ case $1 in
   task)
     name=$2
     crab=$3
-    branch=task/$initials/$name-CRAB-$crab
+    branch=task2/$initials/$name-CRAB-$crab
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -144,7 +144,7 @@ case $1 in
 
     git worktree add $directoryPrefix-$name $branch
     createWorkspace $directoryPrefix-$name $name
-    tmux switch-client -t $name:9
+    tmux switch-client -t $name:0
     ;;
   start)
     directory=$2
@@ -217,8 +217,6 @@ case $1 in
     path=$(pwd)
     session=$(currentSession)
 
-    tmux switch-client -t $developSession
-    git worktree remove $path
-    tmux kill-session -t $session
+    git worktree remove $path && tmux switch-client -t $developSession && tmux kill-session -t $session
     ;;
 esac

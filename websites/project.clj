@@ -2,8 +2,9 @@
   :description "The Oxley family's websites."
   :url "https://stevenoxley.com/"
   :license {:name "Proprietary"}
-  :dependencies [[org.clojure/clojure "1.10.0"]
-                 [markdown-clj "1.10.1"]]
+  :dependencies [[criterium "0.4.6"]
+                 [markdown-clj "1.10.1"]
+                 [org.clojure/clojure "1.10.0"]]
   :main ^:skip-aot websites.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}

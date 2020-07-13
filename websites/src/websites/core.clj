@@ -1,7 +1,10 @@
 (ns websites.core
-  (:gen-class))
+  (:gen-class)
+  (:require [criterium.core :as crit]
+            [websites.markdown :as md]))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Benchmark markdown processing"
   [& args]
-  (println "Hello, World!"))
+  (crit/with-progress-reporting (crit/bench (md/parse-post "posts/2012-03-13-on-the-uncertainty-of-everything.md") :verbose))
+  (flush))

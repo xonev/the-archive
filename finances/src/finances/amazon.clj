@@ -3,6 +3,8 @@
             [clojure.java.io :as io]
             [clojure.string :as string]))
 
+(def ^:const amazon-directory "/Users/soxley/Google Drive/amazon")
+
 (defn latest-csv-files
   [dir]
   (let [dir-file (io/file dir)]
@@ -34,10 +36,6 @@
           data-rows (rest rows)]
       (map #(zipmap header-row %) data-rows))))
 
-(defn join-charge-with-items
-  [charges items]
-  )
-
 (defn cart-product
   ([row-colls] (cart-product (map #(conj [] %) (first row-colls)) (rest row-colls)))
   ([product row-colls]
@@ -62,6 +60,20 @@
 (def items-file-path (partial file-type-path "items"))
 (def refunds-file-path (partial file-type-path "refunds"))
 
+(defn join-items
+  [items charge]
+  (->> items
+       (filter #(= (:Order-ID charge) (:Order-ID %)))
+       (assoc charge :Items)))
+
+(defn latest-order-categories
+  []
+  (let [files (latest-csv-files amazon-directory)
+        items (read-csv (items-file-path files))
+        orders (read-csv (orders-file-path files))]
+    (->> orders
+        (map (partial join-items items)))))
+
 (comment
   (let [amazon-dir "/Users/soxley/Google Drive/amazon"]
     (->> amazon-dir
@@ -74,6 +86,7 @@
   (def items [{:Category "BABY_PRODUCT" :Item-Subtotal 14.97M} {:Category "BABY_PRODUCT" :Item-Subtotal 14.99M} {:Category "HEALTH_PERSONAL_CARE" :Item-Subtotal 24.82M}])
   (concat [[1 2 3]] [[4 5 6] [7 8 9]] nil [[10 11 12]])
   (all-combos items)
+  (latest-order-categories)
   (re-find #"/\d{4}-\w+$" "/a/b/c/2020text")
 
    (def prices [{:price 10} {:price 15} {:price 25}])

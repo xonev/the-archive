@@ -69,3 +69,6 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
+
+# Set this up for StevenOxley.com. It can be removed once StevenOxley.com is updated
+eval "$(rbenv init -)"

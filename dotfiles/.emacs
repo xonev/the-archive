@@ -154,3 +154,7 @@ respectively."
 (setq evil-want-C-u-scroll t)
 (require 'evil)
 (evil-mode t)
+
+;; atomic-chrome/GhostText
+(require 'atomic-chrome)
+(atomic-chrome-start-server)

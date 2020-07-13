@@ -76,7 +76,7 @@ function createServersWindow {
   tmux send-keys -t $session:servers "cd $directory/webserver" C-m
 
   tmux split-window -h -t $session:servers bash
-  tmux send-keys -t $session:servers "cd $directory/webserver" C-m
+  tmux send-keys -t $session:servers "cd $directory/data-lab" C-m
 
   tmux select-layout -t $session:servers tiled
 }
@@ -101,7 +101,7 @@ case $1 in
   feature)
     name=$2
     crab=$3
-    branch=feature2/$initials/$name-CRAB-$crab
+    branch=feature/$initials/$name-CRAB-$crab
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -111,7 +111,7 @@ case $1 in
   fix)
     name=$2
     crab=$3
-    branch=bugfix2/$initials/$name-CRAB-$crab
+    branch=bugfix/$initials/$name-CRAB-$crab
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -121,7 +121,7 @@ case $1 in
   task)
     name=$2
     crab=$3
-    branch=task2/$initials/$name-CRAB-$crab
+    branch=task/$initials/$name-CRAB-$crab
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -177,10 +177,10 @@ case $1 in
     buildFromScratch $(currentSession)
     ;;
   build-first-time)
-    tmux send-keys -t $(currentSession):servers.0 "sq build -f && sq image -n && sq ide" C-m
+    tmux send-keys -t $(currentSession):servers.0 "sq build -f && sq image -n && ~/scripts/notify.sh" C-m
     ;;
   build)
-    tmux send-keys -t $(currentSession):servers.0 "sq build -f && sq image -n" C-m
+    tmux send-keys -t $(currentSession):servers.0 "sq build -f && sq image -n && ~/scripts/notify.sh" C-m
     ;;
   ide)
     session=$(sessionOrCurrent $2)
@@ -194,14 +194,28 @@ case $1 in
     tmux new-window -t $session -n update-sdk -c $directory
     tmux send-keys -t $session:update-sdk "bash -c 'cd appserver && . environment && sq build -f' && bash -c 'cd sdk && . environment && sq build -f'" C-m
     ;;
+  minishift-login)
+    session=$(currentSession)
+    tmux send-keys -t $session:minishift.0 'oc login -u developer -p developer && docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)' C-m
+    ;;
+  minishift-start)
+    session=$(currentSession)
+    tmux send-keys -t $session:minishift.0 'minishift start && eval $(minishift oc-env) && eval $(minishift docker-env) && worktree minishift-login' C-m
+    ;;
+  minishift)
+    session=$(currentSession)
+    directory=$(pwd)
+    tmux new-window -c "$directory/data-lab" -t $session -n minishift
+    tmux send-keys -t $session:minishift.0 "source $directory/data-lab/environment && worktree minishift-start" C-m
+    ;;
   run)
     session=$(sessionOrCurrent $2)
 
     tmux send-keys -t $session:servers.1 "sq db start" C-m
     tmux send-keys -t $session:servers.2 "sq run --appserverOnly" C-m
     tmux send-keys -t $session:servers.3 "sq run" C-m
-    tmux send-keys -t $session:servers.4 "grunt server" C-m
-    tmux send-keys -t $session:servers.5 "sq run" C-m
+    tmux send-keys -t $session:servers.4 "sq run --dev" C-m
+    tmux send-keys -t $session:servers.5 "python -m pilot config set Network/Hostname localhost && sq run" C-m
     ;;
   db)
     session=$(currentSession)

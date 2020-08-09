@@ -13,7 +13,7 @@
 
 (comment
   (use 'criterium.core)
-  (string/join (concat "abc" "def"))
+  (string/join "/" ["abc" "def"])
   (bench (parse-post "posts/2020-07-13-clojure-markdown-parsing-benchmarks.markdown"))
   (bench (md/md-to-html "posts/2011-09-30-first.markdown" "posts/2011-09-30-first.html"))
 )

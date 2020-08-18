@@ -4,7 +4,8 @@
             [integrant.core :as ig]
             [ring.adapter.jetty :as jetty]
 
-            [websites.markdown :as md]))
+            [websites.markdown :as md]
+            [websites.renderer :as renderer]))
 
 (defn create-handler [parse]
   (fn [request]

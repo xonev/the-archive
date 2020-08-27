@@ -61,21 +61,21 @@ function createServersWindow {
 
   tmux send-keys -t $session:servers "cd $directory" C-m
 
-  tmux split-window -h -t $session:servers bash
+  tmux split-window -h -t $session:servers $SHELL
   tmux send-keys -t $session:servers "cd $directory/appserver" C-m
 
-  tmux split-window -h -t $session:servers bash
+  tmux split-window -h -t $session:servers $SHELL
   tmux send-keys -t $session:servers "cd $directory/appserver" C-m
 
-  tmux split-window -h -t $session:servers bash
+  tmux split-window -h -t $session:servers $SHELL
   tmux send-keys -t $session:servers "cd $directory/jvm-link" C-m
 
   tmux select-layout -t $session:servers even-horizontal
 
-  tmux split-window -h -t $session:servers bash
+  tmux split-window -h -t $session:servers $SHELL
   tmux send-keys -t $session:servers "cd $directory/webserver" C-m
 
-  tmux split-window -h -t $session:servers bash
+  tmux split-window -h -t $session:servers $SHELL
   tmux send-keys -t $session:servers "cd $directory/data-lab" C-m
 
   tmux select-layout -t $session:servers tiled
@@ -85,7 +85,7 @@ function createWorkspace {
   directory=$1
   session=$2
 
-  tmux new-session -d -c $directory -s $session bash
+  tmux new-session -d -c $directory -s $session $SHELL
   tmux rename-window -t $session servers
   createServersWindow $session
   tmux switch-client -t $session
@@ -160,18 +160,18 @@ case $1 in
     directory=$(pwd)
     session=$(sessionOrCurrent $2)
 
-    tmux new-window -t $session -n servers -c $directory bash
+    tmux new-window -t $session -n servers -c $directory $SHELL
     createServersWindow $(sessionOrCurrent $2)
     ;;
   env)
     session=$(currentSession)
 
-    tmux send-keys -t $session:servers.0 ". environment" C-m
-    tmux send-keys -t $session:servers.1 ". environment" C-m
-    tmux send-keys -t $session:servers.2 ". environment" C-m
-    tmux send-keys -t $session:servers.3 ". environment" C-m
-    tmux send-keys -t $session:servers.4 ". environment" C-m
-    tmux send-keys -t $session:servers.5 ". environment" C-m
+    # tmux send-keys -t $session:servers.0 "source environment" C-m
+    # tmux send-keys -t $session:servers.1 "source environment" C-m
+    # tmux send-keys -t $session:servers.2 "source environment" C-m
+    # tmux send-keys -t $session:servers.3 "source environment" C-m
+    # tmux send-keys -t $session:servers.4 "source environment" C-m
+    # tmux send-keys -t $session:servers.5 "source environment" C-m
     ;;
   build-from-scratch)
     buildFromScratch $(currentSession)
@@ -192,7 +192,7 @@ case $1 in
     directory=$(pwd)
 
     tmux new-window -t $session -n update-sdk -c $directory
-    tmux send-keys -t $session:update-sdk "bash -c 'cd appserver && . environment && sq build -f' && bash -c 'cd sdk && . environment && sq build -f'" C-m
+    tmux send-keys -t $session:update-sdk "bash -c 'cd appserver && source environment && sq build -f' && bash -c 'cd sdk && source environment && sq build -f'" C-m
     ;;
   minishift-login)
     session=$(currentSession)
@@ -222,7 +222,7 @@ case $1 in
     directory=$(pwd)
 
     tmux new-window -t $session -n db -c $directory
-    tmux send-keys -t $session:db "bash -c 'cd appserver && . environment && sq db client'" C-m
+    tmux send-keys -t $session:db "bash -c 'cd appserver && source environment && sq db client'" C-m
     ;;
   bitbucket)
     open https://bitbucket.org/seeq12/crab/branch/$(git rev-parse --abbrev-ref HEAD)

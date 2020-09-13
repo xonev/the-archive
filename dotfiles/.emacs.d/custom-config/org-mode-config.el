@@ -36,11 +36,19 @@
 (defun org-filename (filename)
   (concat org-directory filename))
 
-(setq org-agenda-files `(,(org-filename "gtd.org")
+(setq org-agenda-files `(,(org-filename "seeq.org")
+                         ,(org-filename "personal.org")
+                         ,(org-filename "consulting.org")
                          ,(org-filename "tickler.org")))
 
-(setq org-capture-templates `(("t" "Todo [inbox]" entry
-                               (file+headline ,(org-filename "gtd.org") "Inbox")
+(setq org-capture-templates `(("s" "Seeq Todo [inbox]" entry
+                               (file+headline ,(org-filename "seeq.org") "Inbox")
+                               "* TODO %i%?")
+                              ("p" "Personal Todo [inbox]" entry
+                               (file+headline ,(org-filename "personal.org") "Inbox")
+                               "* TODO %i%?")
+                              ("c" "Client Todo [inbox]" entry
+                               (file+headline ,(org-filename "consulting.org") "Inbox")
                                "* TODO %i%?")
                               ("T" "Tickler" entry
                                (file+headline ,(org-filename "tickler.org") "Tickler")
@@ -49,7 +57,9 @@
                                (file+headline ,(org-filename "reference.org") "Notes")
                                "* %i%?")))
 
-(setq org-refile-targets `((,(org-filename "gtd.org") :maxlevel . 3)
+(setq org-refile-targets `((,(org-filename "seeq.org") :maxlevel . 3)
+                           (,(org-filename "personal.org") :maxlevel . 3)
+                           (,(org-filename "consulting.org") :maxlevel . 3)
                            (,(org-filename "someday.org") :level . 1)
                            (,(org-filename "tickler.org") :maxlevel . 2)
                            (,(org-filename "reference.org") :level . 1)))

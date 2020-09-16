@@ -37,7 +37,16 @@
               :db/cardinality :db.cardinality/one}
              {:db/ident :category/last-edited-by
               :db/valueType :db.type/ref
-              :db/cardinality :db.cardinality/one}])
+              :db/cardinality :db.cardinality/one}
+
+             {:db/ident :question-rating/rating
+              :db/valueType :db.type/long
+              :db/cardinality :db.cardinality/one}
+             {:db/ident :question-rating/created-by
+              :db/valueType :db.type/ref
+              :db/cardinality :db.cardinality/one}
+
+             {:db/ident :user/username}])
 
 (d/transact conn schema)
 

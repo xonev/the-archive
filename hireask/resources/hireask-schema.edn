@@ -1,0 +1,15 @@
+{:objects
+ {:Question
+  {:description "A question to ask in an interview"
+   :fields
+   {:text {:type (non-null String)}
+    :answer {:type String}
+    :created_by {:type (non-null :User)}
+    :last_edited_by {:type (non-null :User)}
+    :ratings {:type (list :Rating)}
+    :categories {:type (list :Category)}}}}
+ :queries
+ {:questions-by-category
+  {:type :Question
+   :description "Retrieve all questions"
+   :resolve :query/questions-by-category}}}

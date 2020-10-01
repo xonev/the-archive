@@ -46,9 +46,21 @@
               :db/valueType :db.type/ref
               :db/cardinality :db.cardinality/one}
 
-             {:db/ident :user/username}])
+             {:db/ident :user/username
+              :db/valueType :db.type/string
+              :db/cardinality :db.cardinality/one}])
 
 (d/transact conn schema)
+
+(defn questions-by-category
+  [category]
+  (d/q '[:find ?text ?answer ?created-by ?last-edited-by ?rating
+         :where
+         [?category :category/title category]
+         [?question :question/category ?category]
+         [?question :question/text ?text]
+         [?question :question/answer ?answer]
+         [?question :question/created-by ?created-ref]]))
 
 (comment
   (d/transact conn [{:category/title "Technical"
@@ -72,4 +84,17 @@
          [?question :question/category ?category]
          [?question :question/text ?text]]
        @conn)
+
+  (d/q '[:find (pull ?question question-pattern) (pull ?category category-pattern)
+         :in $ ?category-title question-pattern category-pattern
+         :where
+         [?category :category/title ?category-title]
+         [?question :question/category ?category]]
+       @conn
+       "Technical"
+       [:question/text :question/answer]
+       [:category/title])
+  (def result *1)
+  (type (first result))
+  (:question/answer (first result))
   )

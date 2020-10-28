@@ -53,14 +53,15 @@
 (d/transact conn schema)
 
 (defn questions-by-category
-  [category]
-  (d/q '[:find ?text ?answer ?created-by ?last-edited-by ?rating
-         :where
-         [?category :category/title category]
-         [?question :question/category ?category]
-         [?question :question/text ?text]
-         [?question :question/answer ?answer]
-         [?question :question/created-by ?created-ref]]))
+  [category-title question-fields]
+  (->>
+   (d/q '[:find (pull ?question question-pattern)
+          :in $ ?category-title question-pattern
+          :where [?category :category/title ?category-title] [?question :question/category ?category]]
+        @conn
+        category-title
+        question-fields)
+   (map first)))
 
 (comment
   (d/transact conn [{:category/title "Technical"
@@ -94,6 +95,7 @@
        "Technical"
        [:question/text :question/answer]
        [:category/title])
+  (questions-by-category "Basics" [:question/text])
   (def result *1)
   (type (first result))
   (:question/answer (first result))

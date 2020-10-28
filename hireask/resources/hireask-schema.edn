@@ -4,12 +4,15 @@
    :fields
    {:text {:type (non-null String)}
     :answer {:type String}
-    :created_by {:type (non-null :User)}
-    :last_edited_by {:type (non-null :User)}
-    :ratings {:type (list :Rating)}
-    :categories {:type (list :Category)}}}}
+                                        ; :created_by {:type (non-null :User)}
+                                        ; :last_edited_by {:type (non-null :User)}
+                                        ; :ratings {:type (list :Rating)}
+                                        ; :categories {:type (list :Category)}
+    }}}
  :queries
- {:questions-by-category
-  {:type :Question
+ {:questions_by_category
+  {:type (list :Question)
    :description "Retrieve all questions"
-   :resolve :query/questions-by-category}}}
+   :resolve :query/questions-by-category
+   :args
+   {:category {:type (non-null String)}}}}}

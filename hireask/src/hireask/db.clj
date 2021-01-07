@@ -2,10 +2,6 @@
   (:require [datahike.api :as d]
             [datahike.core :as dh]))
 
-(def cfg {:store {:backend :file :path "question-db"}})
-(d/delete-database cfg)
-(d/create-database cfg)
-(def conn (d/connect cfg))
 (def schema [{:db/ident :question/text
               :db/valueType :db.type/string
               :db/cardinality :db.cardinality/one}
@@ -50,18 +46,25 @@
               :db/valueType :db.type/string
               :db/cardinality :db.cardinality/one}])
 
-(d/transact conn schema)
-
 (defn questions-by-category
-  [category-title question-fields]
+  [{:keys [connection]} category-title question-fields]
   (->>
    (d/q '[:find (pull ?question question-pattern)
           :in $ ?category-title question-pattern
           :where [?category :category/title ?category-title] [?question :question/category ?category]]
-        @conn
+        @connection
         category-title
         question-fields)
    (map first)))
+
+(defn init [config]
+  (let [exists? (d/database-exists? config)]
+    (when-not exists?
+      (d/create-database config))
+    (let [conn (d/connect config)]
+      (when-not exists?
+        (d/transact conn schema))
+      {:connection conn})))
 
 (comment
   (d/transact conn [{:category/title "Technical"

@@ -1,15 +1,12 @@
 (ns hireask.core
   (:gen-class)
   (:require [clojure.java.io :as io]
-            [integrant.core :as ig]))
+            [hireask.system :as system]))
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (-> "system.edn"
-      io/resource
-      slurp
-      ig/read-string))
+  (system/start (system/system)))
 
 (comment
   (-main)

@@ -1,4 +1,4 @@
-(ns hireask.api-schema
+(ns hireask.query-api
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.string :as string]
@@ -30,7 +30,7 @@
     (println (executor/selections-seq2 context))
     (println selections)
     (->> selections
-         (db/questions-by-category (:category args))
+         (db/questions-by-category (:database context) (:category args))
          (map keys->names))))
 
 (defn load-schema
@@ -40,6 +40,17 @@
       edn/read-string
       (util/attach-resolvers {:query/questions-by-category questions-by-category})
       schema/compile))
+
+(defn execute
+  ([dependencies query]
+   (execute dependencies query {} {} {}))
+  ([{:keys [schema database]} query variables context options]
+   (l/execute schema query variables (assoc context :database database) options)))
+
+(defn init
+  [{:keys [db]}]
+  {:schema (load-schema)
+   :database db})
 
 (comment
   (def schema (load-schema))

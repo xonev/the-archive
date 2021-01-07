@@ -17,16 +17,18 @@ alias worktree='/Users/soxley/scripts/worktree.sh'
 
 # Seeq customizations
 sq() {
-    command="sq $@"
-    bash -c "source environment && $command"
+    set -x
+    bash -c 'source environment && sq "$@"' "$0" "$@"
 }
 
 spy() {
-    bash -c "source environment && python -m $*"
+    set -x
+    bash -c 'source environment && python -m "$@"' "$0" "$@"
 }
 
 ,() {
-    bash -c "source environment && $*"
+    set -x
+    bash -c 'source environment && "$@"' "$0" "$@"
 }
 
 # some node apps require opening a lot of files
@@ -87,3 +89,6 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
 source ~/secrets/teamcity.zsh
+export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+
+source ~/.creds/seeq_creds.sh

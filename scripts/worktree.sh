@@ -24,9 +24,9 @@ if [ -z "$*" ]; then
   echo "  worktree env"
   echo "    Load the installed environments for the given session."
   echo "  worktree build-from-scratch"
-  echo "    Install, build, and launch IDE"
+  echo "    Install and build"
   echo "  worktree build-first-time"
-  echo "    Build and launch IDE"
+  echo "    Alias for worktree build - didn't used to be, of course"
   echo "  worktree build"
   echo "    Start a top-level build of the workspace."
   echo "  worktree ide [sessionName]"
@@ -38,7 +38,9 @@ if [ -z "$*" ]; then
   echo "  worktree bitbucket"
   echo "    Open the current branch on BitBucket."
   echo "  worktree run"
-  echo "    Run everything."
+  echo "    Run everything but Data Lab."
+  echo "  worktree run-with-datalab"
+  echo "    Run everything including Data Lab."
   echo "  worktree destroy"
   echo "    Remove the current worktree and close this Tmux session."
   exit 0
@@ -215,7 +217,15 @@ case $1 in
     tmux send-keys -t $session:servers.2 "sq run --appserverOnly" C-m
     tmux send-keys -t $session:servers.3 "sq run" C-m
     tmux send-keys -t $session:servers.4 "sq run --dev" C-m
-    tmux send-keys -t $session:servers.5 "python -m pilot config set Network/Hostname localhost && sq run" C-m
+    ;;
+  run-with-datalab)
+    session=$(sessionOrCurrent $2)
+
+    tmux send-keys -t $session:servers.1 "sq db start" C-m
+    tmux send-keys -t $session:servers.2 "sq run --appserverOnly" C-m
+    tmux send-keys -t $session:servers.3 "sq run" C-m
+    tmux send-keys -t $session:servers.4 "sq run --dev" C-m
+    tmux send-keys -t $session:servers.5 "spy pilot config set Network/Hostname localhost && sq run" C-m
     ;;
   db)
     session=$(currentSession)

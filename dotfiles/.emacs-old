@@ -9,7 +9,7 @@
 ;; ~/Library/Preferences/Aquamacs Emacs/Preferences
 ;; _____________________________________________________________________________
 
-;; Disable the splash screen (to enable it again, replace t with 0)
+
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -20,6 +20,7 @@
 ;; packages in one go, as well as providing the bind-keys function
 (require 'use-package)
 
+;; Disable the splash screen (to enable it again, replace t with 0)
 (setq inhibit-splash-screen t)
 
 ;; PATH

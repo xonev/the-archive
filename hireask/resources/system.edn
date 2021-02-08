@@ -1,2 +1,2 @@
-{:db {:store {:backend :file :path "question-db"}}
- :query-api {:db #ig/ref :the-db}}
+{:db/questions {:store {:backend :file :path "question-db"}}
+ :api/questions {:db #ig/ref :db/questions}}

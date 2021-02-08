@@ -58,4 +58,6 @@
   (db/questions-by-category "Basics" [:question/text :question/answer])
   (keyword (string/lower-case (string/join (rest (str :Question/text)))))
   (reduce (fn [m [k v]] (assoc m (keyword (name k)) v)) {} {:question/test "this" :other "that"})
+  (execute (:api/questions user/system) "{ questions_by_category(category: \"Basics\") { text answer }}")
+
   )

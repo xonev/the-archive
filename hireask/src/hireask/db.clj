@@ -67,6 +67,23 @@
       {:connection conn})))
 
 (comment
+  (get-in user/system '(:db/questions :connection))
+  (d/transact (get-in user/system [:db/questions :connection])
+              [{:category/title "Technical"
+                :category/description "Sufficiently technical questions"}
+               {:category/title "Basics"
+                :category/description "Sufficiently basic questions"}
+
+               {:question/text "Is this your resume?"
+                :question/answer "It had better be"
+                :question/category [[:category/title "Basics"]]}
+               {:question/text "Why do you want the job?"
+                :question/answer "Because your company is awesome"
+                :question/category [[:category/title "Basics"]]}
+               {:question/text "How do you squeeb a thlob?"
+                :question/answer "You have to bibidibop it first"
+                :question/category [[:category/title "Technical"]]}])
+
   (d/transact conn [{:category/title "Technical"
                      :category/description "Sufficiently technical questions"}
                     {:category/title "Basics"

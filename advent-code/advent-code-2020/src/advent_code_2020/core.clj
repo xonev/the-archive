@@ -49,6 +49,11 @@
                                (map (fn [info] ())))]
     invalid-passwords))
 
+(defn get-digits [n]
+  (if (< n 10)
+    (list n)
+    (cons (mod n 10) (get-digits (int (Math/floor (/ n 10)))))))
+
 (comment
   (apply + '(1 2))
   (day-1-problem-1)
@@ -57,4 +62,8 @@
   (filter #(= % (char "a")) "aabababbaaa")
   (get (frequencies "aabababaababaaa") \a)
   (first "a")
+  (mod 456 10)
+  (int (Math/floor (/ 456 10)))
+  (int (/ 456 10))
+  (get-digits 456)
   )

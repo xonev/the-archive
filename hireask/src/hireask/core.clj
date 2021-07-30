@@ -1,12 +1,14 @@
 (ns hireask.core
   (:gen-class)
   (:require [clojure.java.io :as io]
-            [hireask.system :as system]))
+            #_[hireask.system :as system]
+            [clojure.tools.logging :as log]))
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (system/start (system/system)))
+  (log/info "Starting system")
+  #_(system/start (system/system)))
 
 (comment
   (-main)

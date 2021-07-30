@@ -6,8 +6,11 @@
   :dependencies [[com.walmartlabs/lacinia "0.37.0"]
                  [integrant "0.8.0"]
                  [io.replikativ/datahike "0.3.1"]
-                 [org.clojure/clojure "1.10.0"]]
-  :main ^:skip-aot hireask.core
+                 [org.apache.logging.log4j/log4j-api "2.14.1"]
+                 [org.apache.logging.log4j/log4j-core "2.14.1"]
+                 [org.clojure/clojure "1.10.2-alpha1"]
+                 [org.clojure/tools.logging "1.1.0"]]
+  :main hireask.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
              :dev {:source-paths ["dev"]

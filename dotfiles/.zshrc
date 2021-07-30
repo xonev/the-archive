@@ -8,7 +8,7 @@ export WORKTREE_DIRECTORY_PREFIX=/Users/soxley/workspace/seeq/crab
 export WORKTREE_DEVELOP_SESSION=develop
 
 export DEVOPS_WT_DIRECTORY_PREFIX=/Users/soxley/workspace/seeq/devops
-export DEVOPS_DEVELOP_SESSION=devops
+export DEVOPS_WT_DEVELOP_SESSION=devops
 
 alias tm="~/.tmux/tmux.sh"
 alias grep="grep --color=auto"

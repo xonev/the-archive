@@ -1,14 +1,12 @@
+# Create a file called ".enivronment.sh" (which is ignored by git) in order to set up enviroment settings
+if [[ -f "./.environment.sh" ]]; then
+    source "./.environment.sh"
+fi
+
 # NVM is installed via homebrew. This loads it and sets it up
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
-
-export WORKTREE_INITIALS=sajo
-export WORKTREE_DIRECTORY_PREFIX=/Users/soxley/workspace/seeq/crab
-export WORKTREE_DEVELOP_SESSION=develop
-
-export DEVOPS_WT_DIRECTORY_PREFIX=/Users/soxley/workspace/seeq/devops
-export DEVOPS_WT_DEVELOP_SESSION=devops
 
 alias tm="~/.tmux/tmux.sh"
 alias grep="grep --color=auto"
@@ -16,28 +14,39 @@ alias sftp='with-readline sftp'
 alias worktree='/Users/soxley/scripts/worktree.sh'
 alias devops_wt='/Users/soxley/scripts/devops_wt.sh'
 
-# Seeq customizations
-sq() {
-    set -x
-    bash -c 'source environment && sq "$@"' "$0" "$@"
-}
+if [[ ($IS_SEEQ_HARDWARE) ]]; then
+    # Seeq customizations
+    sq() {
+        set -x
+        bash -c 'source environment && sq "$@"' "$0" "$@"
+    }
 
-spy() {
-    set -x
-    bash -c 'source environment && python -m "$@"' "$0" "$@"
-}
+    spy() {
+        set -x
+        bash -c 'source environment && python -m "$@"' "$0" "$@"
+    }
 
-,() {
-    file=environment
-    for i in $(seq 0 $(pwd | tr -cd '/' | wc -c)); do
-        if [ -f "$file" ]; then
-            break
-        fi
-        file=../$file
-    done
-    set -x
-    bash -c 'source '"$file"' && "$@"' "$0" "$@"
-}
+    ,() {
+        file=environment
+        for i in $(seq 0 $(pwd | tr -cd '/' | wc -c)); do
+            if [ -f "$file" ]; then
+                break
+            fi
+            file=../$file
+        done
+        set -x
+        bash -c 'source '"$file"' && "$@"' "$0" "$@"
+    }
+
+    export WORKTREE_INITIALS=sajo
+    export WORKTREE_DIRECTORY_PREFIX=/Users/soxley/workspace/seeq/crab
+    export WORKTREE_DEVELOP_SESSION=develop
+
+    export DEVOPS_WT_DIRECTORY_PREFIX=/Users/soxley/workspace/seeq/devops
+    export DEVOPS_WT_DEVELOP_SESSION=devops
+
+fi
+
 
 # some node apps require opening a lot of files
 ulimit -n 4096
@@ -84,7 +93,7 @@ antigen bundle git
 antigen bundle pip
 antigen bundle lein
 antigen bundle command-not-found
-antigen bundle softmoth/zsh-vim-mode
+antigen bundle vi-mode
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -94,6 +103,10 @@ antigen theme geometry-zsh/geometry
 
 # Tell Antigen that you're done.
 antigen apply
+
+# vi-mode settings
+VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+VI_MODE_SET_CURSOR=true
 
 # Terraform autocomplete
 autoload -U +X bashcompinit && bashcompinit
@@ -107,5 +120,6 @@ PATH=/opt/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=$GRAALVM_HOME/bin:$PATH
 export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
 
-
-source ~/.creds/seeq_creds.sh
+if [[ -f ~/.creds/seeq_creds.sh ]]; then
+    source ~/.creds/seeq_creds.sh
+fi

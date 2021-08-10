@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RestController
     @Autowired val billingService: BillingService) {
     @PostMapping("/checkout") fun checkout(): String {
         val span = tracer.buildSpan("checkout").start()
-        println("Doing some checkout activities")
-        inventoryService.createOrder(span)
-        billingService.payment(span)
-        deliveryService.arrangeDelivery(span)
+        val scope = tracer.scopeManager().activate(span)
+        scope.use {
+            println("Doing some checkout activities")
+            inventoryService.createOrder()
+            billingService.payment()
+            deliveryService.arrangeDelivery()
+        }
         span.finish()
         return "You have successfully checked out your shopping cart."
     }

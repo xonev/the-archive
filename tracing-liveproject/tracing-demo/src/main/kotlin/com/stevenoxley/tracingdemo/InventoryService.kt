@@ -4,5 +4,5 @@ import io.opentracing.Span
 import org.springframework.stereotype.Service
 
 interface InventoryService {
-    fun createOrder(span: Span): Unit
+    fun createOrder(): Unit
 }

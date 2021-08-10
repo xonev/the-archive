@@ -4,6 +4,7 @@ import io.opentracing.Tracer
 import io.opentracing.util.GlobalTracer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.EnableAspectJAutoProxy
 
 @Configuration
 class Container() {

@@ -9,10 +9,12 @@ import kotlin.random.Random
 @Service
 class DeliveryServiceImpl(@Autowired val tracer: Tracer,
                           @Autowired val logisticsService: LogisticsService): DeliveryService {
-    override fun arrangeDelivery(span: Span) {
-        val span = tracer.buildSpan("arrangeDelivery").asChildOf(span).start()
-        logisticsService.transport(span)
-        Thread.sleep(Random.nextLong(10, 500))
+    override fun arrangeDelivery() {
+        val span = tracer.buildSpan("arrangeDelivery").start()
+        tracer.activateSpan(span).use {
+            logisticsService.transport()
+            Thread.sleep(Random.nextLong(10, 500))
+        }
         span.finish()
     }
 }

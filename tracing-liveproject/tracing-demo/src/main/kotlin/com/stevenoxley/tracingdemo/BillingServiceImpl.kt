@@ -8,9 +8,11 @@ import kotlin.random.Random
 
 @Service
 class BillingServiceImpl(@Autowired val tracer: Tracer): BillingService {
-    override fun payment(span: Span) {
-        val span = tracer.buildSpan("payment").asChildOf(span).start()
-        Thread.sleep(Random.nextLong(10, 500))
+    override fun payment() {
+        val span = tracer.buildSpan("payment").start()
+        tracer.activateSpan(span).use {
+            Thread.sleep(Random.nextLong(10, 500))
+        }
         span.finish()
     }
 }

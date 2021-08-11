@@ -1,6 +1,8 @@
 # Create a file called ".enivronment.sh" (which is ignored by git) in order to set up enviroment settings
-if [[ -f "./.environment.sh" ]]; then
-    source "./.environment.sh"
+env_file=~/.environment.sh
+if [[ -e "$env_file" ]]; then
+    echo "Sourcing $env_file"
+    source "$env_file"
 fi
 
 # NVM is installed via homebrew. This loads it and sets it up

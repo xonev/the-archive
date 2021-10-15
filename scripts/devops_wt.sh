@@ -54,7 +54,7 @@ function createWindow {
   tmux send-keys -t $session:devops "cd $directory" C-m
 
   tmux split-window -h -t $session:devops $SHELL
-  tmux send-keys -t $session:devops "cd $directory/runbooks" C-m
+  tmux send-keys -t $session:devops "cd $directory" C-m
 
   tmux select-layout -t $session:devops tiled
 }

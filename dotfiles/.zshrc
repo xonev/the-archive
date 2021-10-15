@@ -10,6 +10,27 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
+autoload -U add-zsh-hook
+load-nvmrc() {
+    local node_version="$(nvm version)"
+    local nvmrc_path="$(nvm_find_nvmrc)"
+
+    if [ -n "$nvmrc_path" ]; then
+        local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+        if [ "$nvmrc_node_version" = "N/A" ]; then
+            nvm install
+        elif [ "$nvmrc_node_version" != "$node_version" ]; then
+            nvm use
+        fi
+    elif [ "$node_version" != "$(nvm version default)" ]; then
+        echo "Reverting to nvm default version"
+        nvm use default
+    fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
 alias tm="~/.tmux/tmux.sh"
 alias grep="grep --color=auto"
 alias sftp='with-readline sftp'
@@ -19,13 +40,27 @@ alias devops_wt='/Users/soxley/scripts/devops_wt.sh'
 if [[ ($IS_SEEQ_HARDWARE) ]]; then
     # Seeq customizations
     sq() {
+        file=environment
+        for i in $(seq 0 $(pwd | tr -cd '/' | wc -c)); do
+            if [ -f "$file" ]; then
+                break
+            fi
+            file=../$file
+        done
         set -x
-        bash -c 'source environment && sq "$@"' "$0" "$@"
+        bash -c 'source '"$file"' && sq "$@"' "$0" "$@"
     }
 
     spy() {
+        file=environment
+        for i in $(seq 0 $(pwd | tr -cd '/' | wc -c)); do
+            if [ -f "$file" ]; then
+                break
+            fi
+            file=../$file
+        done
         set -x
-        bash -c 'source environment && python -m "$@"' "$0" "$@"
+        bash -c 'source '"$file"' && python -m "$@"' "$0" "$@"
     }
 
     ,() {

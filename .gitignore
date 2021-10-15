@@ -1,1 +1,4 @@
 .environment.sh
+.cpcache
+rtoham-scraper/*.csv
+rtoham-scraper/*/*.csv

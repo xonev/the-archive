@@ -164,9 +164,9 @@ case $1 in
     open https://bitbucket.org/seeq12/crab/branch/$(git rev-parse --abbrev-ref HEAD)
     ;;
   destroy)
-    path=$(pwd)
+    directory_name=${PWD##*/}
     session=$(currentSession)
 
-    git worktree remove $path && tmux switch-client -t $developSession && tmux kill-session -t $session
+    git worktree remove "$PWD" && tmux switch-client -t "$developSession" && tmux kill-session -t "$session" && rm -r "$HOME/sq/ide/workspaces/idea/$directory_name"
     ;;
 esac

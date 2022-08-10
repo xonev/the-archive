@@ -5,10 +5,16 @@ if [[ -e "$env_file" ]]; then
     source "$env_file"
 fi
 
+if [[ -d "/opt/homebrew" ]]; then
+  homebrew_dir="/opt/homebrew"
+else
+  homebrew_dir="/usr/local"
+fi
+
 # NVM is installed via homebrew. This loads it and sets it up
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+[ -s "/$homebrew_dir/opt/nvm/nvm.sh" ] && . "$homebrew_dir/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/$homebrew_dir/opt/nvm/etc/bash_completion" ] && . "/$homebrew_dir/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
 autoload -U add-zsh-hook
 load-nvmrc() {
@@ -120,7 +126,7 @@ eval "$(rbenv init -)"
 export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-lts-java11-20.3.1/Contents/Home
 
 # antigen and oh-my-zsh settings
-source /usr/local/share/antigen/antigen.zsh
+source "$homebrew_dir"/share/antigen/antigen.zsh
 
 # Load the oh-my-zsh library.
 antigen use oh-my-zsh
@@ -153,9 +159,10 @@ source ~/secrets/teamcity.zsh
 
 # All path manipulations go here for easier understanding of ordering, etc.
 # Bin path ordering is important
+eval "$(/opt/homebrew/bin/brew shellenv)"
 PATH=/opt/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=$GRAALVM_HOME/bin:$PATH
-export PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+export PATH="$homebrew_dir/opt/terraform@0.12/bin:$PATH"
 
 if [[ -f ~/.creds/seeq_creds.sh ]]; then
     source ~/.creds/seeq_creds.sh

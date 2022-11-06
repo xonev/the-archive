@@ -75,3 +75,4 @@ eval "$(rbenv init -)"
 
 # TeamCity access token for Seeq (used by the sq ship command)
 export TEAMCITY_ACCESS_TOKEN=eyJ0eXAiOiAiVENWMiJ9.RmI0SXlXd3E2OTZjT29id3kxMk5maFlWOEdr.OWUyMmQ3M2QtZjJlZC00ZDNiLThmNzctY2NlMmM4ZWVlZjk1
+. "$HOME/.cargo/env"

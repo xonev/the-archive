@@ -5,11 +5,7 @@ if [[ -e "$env_file" ]]; then
     source "$env_file"
 fi
 
-if [[ -d "/opt/homebrew" ]]; then
-  homebrew_dir="/opt/homebrew"
-else
-  homebrew_dir="/usr/local"
-fi
+homebrew_dir="$(brew --prefix)"
 
 # NVM is installed via homebrew. This loads it and sets it up
 export NVM_DIR="$HOME/.nvm"
@@ -53,7 +49,6 @@ if [[ ($IS_SEEQ_HARDWARE) ]]; then
             fi
             file=../$file
         done
-        set -x
         bash -c 'source '"$file"' && sq "$@"' "$0" "$@"
     }
 
@@ -65,7 +60,6 @@ if [[ ($IS_SEEQ_HARDWARE) ]]; then
             fi
             file=../$file
         done
-        set -x
         bash -c 'source '"$file"' && python -m "$@"' "$0" "$@"
     }
 
@@ -77,7 +71,6 @@ if [[ ($IS_SEEQ_HARDWARE) ]]; then
             fi
             file=../$file
         done
-        set -x
         bash -c 'source '"$file"' && "$@"' "$0" "$@"
     }
 
@@ -125,6 +118,10 @@ eval "$(rbenv init -)"
 # Set up GraalVM
 export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-lts-java11-20.3.1/Contents/Home
 
+# fzf oh-my-zsh plugin settings: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/fzf
+FZF_BASE="${homebrew_dir}/bin/fzf"
+export FZF_BASE
+
 # antigen and oh-my-zsh settings
 source "$homebrew_dir"/share/antigen/antigen.zsh
 
@@ -137,9 +134,11 @@ antigen bundle pip
 antigen bundle lein
 antigen bundle command-not-found
 antigen bundle vi-mode
+antigen bundle fzf
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
 
 # Load the theme.
 antigen theme geometry-zsh/geometry
@@ -159,7 +158,7 @@ source ~/secrets/teamcity.zsh
 
 # All path manipulations go here for easier understanding of ordering, etc.
 # Bin path ordering is important
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$($homebrew_dir/bin/brew shellenv)"
 PATH=/opt/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=$GRAALVM_HOME/bin:$PATH
 export PATH="$homebrew_dir/opt/terraform@0.12/bin:$PATH"
@@ -167,3 +166,9 @@ export PATH="$homebrew_dir/opt/terraform@0.12/bin:$PATH"
 if [[ -f ~/.creds/seeq_creds.sh ]]; then
     source ~/.creds/seeq_creds.sh
 fi
+
+# According to this page gcloud doesn't support Python 3.10:
+# This line can be removed when it does
+export CLOUDSDK_PYTHON="/usr/local/bin/python3.9"
+
+mkdir -p ~/log/tmux

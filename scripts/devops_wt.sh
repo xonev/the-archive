@@ -1,10 +1,10 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 
 initials=$WORKTREE_INITIALS
 directoryPrefix=$DEVOPS_WT_DIRECTORY_PREFIX
 developSession=$DEVOPS_WT_DEVELOP_SESSION
-
-set +x
 
 if [ -z "$*" ]; then
   echo "Usage:"
@@ -75,11 +75,24 @@ function buildFromScratch {
   tmux send-keys -t $session:devops.1 "./sq install && devops_wt env $session && devops_wt build-first-time $session" C-m
 }
 
+function branchName {
+    type="$1"
+    name="$2"
+    crab="$3"
+    branchPrefix="${type}/${initials}/${name}"
+    if [[ -n $crab ]]; then
+        echo "${branchPrefix}-CRAB-${crab}"
+    else
+        echo "${branchPrefix}"
+    fi
+}
+
 case $1 in
   feature)
-    name=$2
-    crab=$3
-    branch=feature/$initials/$name-CRAB-$crab
+    name="$2"
+    crab="${3:-}"
+    branch=$(branchName "feature" "$name" "$crab")
+
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -87,9 +100,9 @@ case $1 in
     buildFromScratch $name
     ;;
   fix)
-    name=$2
-    crab=$3
-    branch=bugfix/$initials/$name-CRAB-$crab
+    name="$2"
+    crab="${3:-}"
+    branch=$(branchName "bugfix" "$name" "$crab")
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -97,9 +110,9 @@ case $1 in
     buildFromScratch $name
     ;;
   task)
-    name=$2
-    crab=$3
-    branch=task/$initials/$name-CRAB-$crab
+    name="$2"
+    crab="${3:-}"
+    branch=$(branchName "task" "$name" "$crab")
 
     git branch $branch
     git worktree add $directoryPrefix-$name $branch
@@ -167,6 +180,10 @@ case $1 in
     directory_name=${PWD##*/}
     session=$(currentSession)
 
-    git worktree remove "$PWD" && tmux switch-client -t "$developSession" && tmux kill-session -t "$session" && rm -r "$HOME/sq/ide/workspaces/idea/$directory_name"
+    git worktree remove "$PWD" && rm -r "$HOME/sq/ide/workspaces/idea/$directory_name"
+    ;;
+  kill-session)
+    session=$(currentSession)
+    tmux kill-session -t "$session"
     ;;
 esac

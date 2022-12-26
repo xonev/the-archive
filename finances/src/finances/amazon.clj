@@ -1,9 +1,10 @@
 (ns finances.amazon
   (:require [clojure.data.csv :as csv]
             [clojure.java.io :as io]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [clojure.pprint :as pprint]))
 
-(def ^:const amazon-directory "/Users/soxley/Google Drive/amazon")
+(def ^:const amazon-directory "/Users/sajo/Google Drive/My Drive/amazon")
 
 (defn latest-csv-files
   [dir]
@@ -36,6 +37,7 @@
           data-rows (rest rows)]
       (map #(zipmap header-row %) data-rows))))
 
+; I don't recall what I was trying to accomplish with this code. 
 (defn cart-product
   ([row-colls] (cart-product (map #(conj [] %) (first row-colls)) (rest row-colls)))
   ([product row-colls]
@@ -69,13 +71,15 @@
 (defn latest-order-categories
   []
   (let [files (latest-csv-files amazon-directory)
-        items (read-csv (items-file-path files))
+        ; FIXME: ideally, we'd select the keys at the last moment depending on what we wanted to use the data for
+        items (map #(select-keys % [:Order-ID :Title :Category :Item-Total]) (read-csv (items-file-path files)))
         orders (read-csv (orders-file-path files))]
     (->> orders
-        (map (partial join-items items)))))
+         (map (partial join-items items))
+         (map #(select-keys % [:Order-ID :Items :Total-Charged :Order-Date])))))
 
 (comment
-  (let [amazon-dir "/Users/soxley/Google Drive/amazon"]
+  (let [amazon-dir "/Users/sajo/Google Drive/My Drive/amazon"]
     (->> amazon-dir
          latest-csv-files
          items-file-path
@@ -86,7 +90,10 @@
   (def items [{:Category "BABY_PRODUCT" :Item-Subtotal 14.97M} {:Category "BABY_PRODUCT" :Item-Subtotal 14.99M} {:Category "HEALTH_PERSONAL_CARE" :Item-Subtotal 24.82M}])
   (concat [[1 2 3]] [[4 5 6] [7 8 9]] nil [[10 11 12]])
   (all-combos items)
-  (latest-order-categories)
+  (items-file-path (latest-csv-files amazon-directory))
+
+  ; The following works for printing out charges and what items are associated with the charges
+  (pprint/pprint (latest-order-categories))
   (re-find #"/\d{4}-\w+$" "/a/b/c/2020text")
 
    (def prices [{:price 10} {:price 15} {:price 25}])

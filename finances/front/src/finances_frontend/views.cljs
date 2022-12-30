@@ -44,12 +44,12 @@
 (defn link-to-link []
   (let [link (rpl/usePlaidLink (clj->js {"onSuccess" (fn [public-token metadata] (js/console.log public-token metadata))
                                          "onExit" (fn [err metadata] (js/console.log err metadata))
-                                         "token" "link-sandbox-46eb0cbc-e938-4c1d-989c-3fb8060ba69d"
+                                         "token" "link-development-cd8bf87a-6f2e-4376-bd94-93b9d649bdb9"
                                          }))]
        [re-com/hyperlink
         :src (at)
         :label "Open Link"
-        :on-click (.open link)]))
+        :on-click #(.open link)]))
 
 (comment
   (js/console.log (clj->js {:a "a" :b [1 2 3]}))
@@ -69,7 +69,7 @@
               [link-to-about-page]
               [display-re-pressed-example]
               [:f> link-to-link]
-              [:p "This is a test"]]])
+              [:p "This a test"]]])
 
 
 (defmethod routes/panels :home-panel [] [home-panel])

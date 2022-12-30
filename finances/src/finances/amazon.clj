@@ -12,10 +12,10 @@
     (->> dir-file
          file-seq
          (map #(.getPath %))
-         (filter #(not (nil? (re-find #"/\d{4}-\d{2}-\d{2}-amazon-\w+.*\.csv$" %))))
+         (filter #(not (nil? (re-find #"/\d{4}-\d{2}-\d{2}.*-amazon-\w+.*\.csv$" %))))
          sort
          reverse
-         (take 3))))
+         (take 2))))
 
 (defn file-type-path
   [file-type file-paths]
@@ -85,6 +85,7 @@
          items-file-path
          read-csv
          (take 5)))
+  (latest-csv-files amazon-directory)
   (map #(conj [] %) [1 2 3])
   (def charges [{:Subtotal 24.82M} {:Subtotal 29.96M}])
   (def items [{:Category "BABY_PRODUCT" :Item-Subtotal 14.97M} {:Category "BABY_PRODUCT" :Item-Subtotal 14.99M} {:Category "HEALTH_PERSONAL_CARE" :Item-Subtotal 24.82M}])
@@ -94,6 +95,8 @@
 
   ; The following works for printing out charges and what items are associated with the charges
   (pprint/pprint (latest-order-categories))
+
+  (pprint/pprint {:test "this"})
   (re-find #"/\d{4}-\w+$" "/a/b/c/2020text")
 
    (def prices [{:price 10} {:price 15} {:price 25}])

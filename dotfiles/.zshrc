@@ -1,4 +1,5 @@
 # Create a file called ".enivronment.sh" (which is ignored by git) in order to set up enviroment settings
+# This is a good place to set variables like HARDWARE
 env_file=~/.environment.sh
 if [[ -e "$env_file" ]]; then
     echo "Sourcing $env_file"
@@ -39,7 +40,8 @@ alias sftp='with-readline sftp'
 alias worktree='/Users/soxley/scripts/worktree.sh'
 alias devops_wt='/Users/soxley/scripts/devops_wt.sh'
 
-if [[ ($IS_SEEQ_HARDWARE) ]]; then
+# $HARDWARE can be exported in ~/.environment.sh
+if [[ "${HARDWARE-}" == "seeq" ]]; then
     # Seeq customizations
     sq() {
         file=environment
@@ -115,9 +117,6 @@ fi
 # Set this up for StevenOxley.com. It can be removed once StevenOxley.com is updated
 eval "$(rbenv init -)"
 
-# Set up GraalVM
-export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-lts-java11-20.3.1/Contents/Home
-
 # fzf oh-my-zsh plugin settings: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/fzf
 FZF_BASE="${homebrew_dir}/bin/fzf"
 export FZF_BASE
@@ -155,13 +154,6 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
 source ~/secrets/teamcity.zsh
-
-# All path manipulations go here for easier understanding of ordering, etc.
-# Bin path ordering is important
-eval "$($homebrew_dir/bin/brew shellenv)"
-PATH=/opt/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=$GRAALVM_HOME/bin:$PATH
-export PATH="$homebrew_dir/opt/terraform@0.12/bin:$PATH"
 
 if [[ -f ~/.creds/seeq_creds.sh ]]; then
     source ~/.creds/seeq_creds.sh

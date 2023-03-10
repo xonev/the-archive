@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		312BFF192967821700DAB5B5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312BFF182967821700DAB5B5 /* main.swift */; };
+		31666E832980FB1A00079FB6 /* Central.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E822980FB1A00079FB6 /* Central.swift */; };
+		31666E852980FB4E00079FB6 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E842980FB4E00079FB6 /* utils.swift */; };
+		31666E872980FCC500079FB6 /* BluetoothData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E862980FCC500079FB6 /* BluetoothData.swift */; };
+		31666E892980FDC700079FB6 /* ProxiedPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E882980FDC700079FB6 /* ProxiedPeripheral.swift */; };
+		31666E8B2980FDFF00079FB6 /* PeripheralProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E8A2980FDFF00079FB6 /* PeripheralProxy.swift */; };
+		31666E8E2994B51700079FB6 /* EventDrivenSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 31666E8D2994B51700079FB6 /* EventDrivenSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +31,11 @@
 /* Begin PBXFileReference section */
 		312BFF152967821700DAB5B5 /* Toothy CLI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Toothy CLI"; sourceTree = BUILT_PRODUCTS_DIR; };
 		312BFF182967821700DAB5B5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		31666E822980FB1A00079FB6 /* Central.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Central.swift; sourceTree = "<group>"; };
+		31666E842980FB4E00079FB6 /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
+		31666E862980FCC500079FB6 /* BluetoothData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothData.swift; sourceTree = "<group>"; };
+		31666E882980FDC700079FB6 /* ProxiedPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxiedPeripheral.swift; sourceTree = "<group>"; };
+		31666E8A2980FDFF00079FB6 /* PeripheralProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralProxy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31666E8E2994B51700079FB6 /* EventDrivenSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +70,11 @@
 			isa = PBXGroup;
 			children = (
 				312BFF182967821700DAB5B5 /* main.swift */,
+				31666E822980FB1A00079FB6 /* Central.swift */,
+				31666E842980FB4E00079FB6 /* utils.swift */,
+				31666E862980FCC500079FB6 /* BluetoothData.swift */,
+				31666E882980FDC700079FB6 /* ProxiedPeripheral.swift */,
+				31666E8A2980FDFF00079FB6 /* PeripheralProxy.swift */,
 			);
 			path = "Toothy CLI";
 			sourceTree = "<group>";
@@ -78,6 +95,9 @@
 			dependencies = (
 			);
 			name = "Toothy CLI";
+			packageProductDependencies = (
+				31666E8D2994B51700079FB6 /* EventDrivenSwift */,
+			);
 			productName = "Toothy CLI";
 			productReference = 312BFF152967821700DAB5B5 /* Toothy CLI */;
 			productType = "com.apple.product-type.tool";
@@ -106,6 +126,9 @@
 				Base,
 			);
 			mainGroup = 312BFF0C2967821700DAB5B5;
+			packageReferences = (
+				31666E8C2994B51700079FB6 /* XCRemoteSwiftPackageReference "EventDrivenSwift" */,
+			);
 			productRefGroup = 312BFF162967821700DAB5B5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -120,7 +143,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31666E852980FB4E00079FB6 /* utils.swift in Sources */,
+				31666E8B2980FDFF00079FB6 /* PeripheralProxy.swift in Sources */,
 				312BFF192967821700DAB5B5 /* main.swift in Sources */,
+				31666E892980FDC700079FB6 /* ProxiedPeripheral.swift in Sources */,
+				31666E872980FCC500079FB6 /* BluetoothData.swift in Sources */,
+				31666E832980FB1A00079FB6 /* Central.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +312,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		31666E8C2994B51700079FB6 /* XCRemoteSwiftPackageReference "EventDrivenSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:Flowduino/EventDrivenSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		31666E8D2994B51700079FB6 /* EventDrivenSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31666E8C2994B51700079FB6 /* XCRemoteSwiftPackageReference "EventDrivenSwift" */;
+			productName = EventDrivenSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 312BFF0D2967821700DAB5B5 /* Project object */;
 }

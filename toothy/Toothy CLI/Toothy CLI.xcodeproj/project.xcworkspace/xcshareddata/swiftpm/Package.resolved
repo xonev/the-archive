@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "eventdrivenswift",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:Flowduino/EventDrivenSwift.git",
+      "state" : {
+        "revision" : "951b5c841868987a6d4f7977694d74eb72e7c96a",
+        "version" : "5.2.0"
+      }
+    },
+    {
+      "identity" : "observable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Flowduino/Observable.git",
+      "state" : {
+        "revision" : "d510e710900ea52bbfd9aa037addd708cbff526c",
+        "version" : "2.0.0"
+      }
+    },
+    {
+      "identity" : "threadsafeswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Flowduino/ThreadSafeSwift.git",
+      "state" : {
+        "revision" : "1a25ee0eea2d74922f34da271347076772d42fc1",
+        "version" : "1.1.0"
+      }
+    }
+  ],
+  "version" : 2
+}

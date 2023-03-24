@@ -10,24 +10,76 @@ import Foundation
 import EventDrivenSwift
 
 struct CentralManagerStateUpdate: Eventable {
-    var state: CBManagerState
+    let state: CBManagerState
 }
 
 struct ReadyForScan: Eventable {
-    var services: [CBUUID]?
+    let services: [CBUUID]?
 }
 
-class Central: NSObject, CBCentralManagerDelegate {
-    var central: CBCentralManager!
-    var proxiedPeripheral: ProxiedPeripheral?
+struct PeripheralDiscovered: Eventable {
+    let peripheralIdentifier: UUID
+}
+
+struct PeripheralConnected: Eventable {
+    let peripheralIdentifier: UUID
+}
+
+class CentralDelegate: NSObject, CBCentralManagerDelegate {
+    let state: State
+
+    init(state: State) {
+        self.state = state
+    }
+
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        CentralManagerStateUpdate(state: central.state).queue()
+    }
+
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        if state.peripheralRegistry.existsBy(identifier: peripheral.identifier) {
+            logger.debug("Peripheral \(peripheral.debugDescription) has already been discovered")
+            return
+        }
+        logger.debug("Discovered peripheral \(peripheral.debugDescription). Registering...")
+        let registration = PeripheralRegistration(
+            identifier: peripheral.identifier,
+            peripheral: peripheral,
+            advertisementData: advertisementData,
+            rssi: RSSI
+        )
+        state.updatePeripheralRegistry({r in r.register(registration: registration)})
+        PeripheralDiscovered(peripheralIdentifier: peripheral.identifier).queue()
+    }
+
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        let name = opt(peripheral.name, withDefault: "")
+        logger.debug("Connected to peripheral \(name)")
+        PeripheralConnected(peripheralIdentifier: peripheral.identifier).queue()
+    }
+
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        logger.error("Failed to connect to peripheral \(peripheral.debugDescription): \(error.debugDescription)")
+    }
+}
+
+
+class Central {
+    let state: State
+    let central: CBCentralManager
+    let centralDelegate: CentralDelegate
     var centralManagerStateUpdateListener: EventListenerHandling?
     var readyForScanListener: EventListenerHandling?
+    var peripheralDiscoveredListener: EventListenerHandling?
+    var proxiedPeripheral: ProxiedPeripheral?
 
-    init(dispatchQueue: DispatchQueue?) {
-        super.init()
-        self.central = CBCentralManager(delegate: self, queue: dispatchQueue)
+    init(state: State, dispatchQueue: DispatchQueue?) {
+        self.state = state
+        centralDelegate = CentralDelegate(state: state)
+        central = CBCentralManager(delegate: centralDelegate, queue: dispatchQueue)
         centralManagerStateUpdateListener = CentralManagerStateUpdate.addListener(self, onCentralManagerStateUpdate, executeOn: .listenerThread)
         readyForScanListener = ReadyForScan.addListener(self, onReadyForScan, executeOn: .listenerThread)
+        peripheralDiscoveredListener = PeripheralDiscovered.addListener(self, onPeripheralDiscovered, executeOn: .listenerThread)
     }
 
     func onCentralManagerStateUpdate(_ event: CentralManagerStateUpdate, _ priority: EventPriority, _ dispatchTime: DispatchTime) {
@@ -43,25 +95,10 @@ class Central: NSObject, CBCentralManagerDelegate {
         self.central.scanForPeripherals(withServices: event.services)
     }
 
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        CentralManagerStateUpdate(state: central.state).queue()
-    }
-
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        let name = opt(peripheral.name, withDefault: "")
-        logger.debug("Discovered peripheral \(name)")
-        logger.debug("Connecting to peripheral \(peripheral.debugDescription)")
-        proxiedPeripheral = ProxiedPeripheral(peripheral, advertisementData: advertisementData)
-        central.connect(peripheral)
-    }
-
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        let name = opt(peripheral.name, withDefault: "")
-        logger.debug("Connected to peripheral \(name)")
-        proxiedPeripheral?.discoverServices(nil)
-    }
-
-    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        logger.debug("Failed to connect to peripheral \(peripheral.debugDescription): \(error.debugDescription)")
+    func onPeripheralDiscovered(_ event: PeripheralDiscovered, _ priority: EventPriority, _ dispatchTime: DispatchTime) {
+        let registration = state.peripheralRegistry.getBy(identifier: event.peripheralIdentifier)
+        proxiedPeripheral = ProxiedPeripheral(registration.peripheral, advertisementData: registration.advertisementData)
+        logger.debug("Connecting to peripheral \(registration.peripheral.debugDescription)")
+        central.connect(registration.peripheral)
     }
 }

@@ -14,6 +14,9 @@
 		31666E892980FDC700079FB6 /* ProxiedPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E882980FDC700079FB6 /* ProxiedPeripheral.swift */; };
 		31666E8B2980FDFF00079FB6 /* PeripheralProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E8A2980FDFF00079FB6 /* PeripheralProxy.swift */; };
 		31666E8E2994B51700079FB6 /* EventDrivenSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 31666E8D2994B51700079FB6 /* EventDrivenSwift */; };
+		31666E9029BBCFE200079FB6 /* PeripheralRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E8F29BBCFE200079FB6 /* PeripheralRegistration.swift */; };
+		31666E9229BEAE2A00079FB6 /* PeripheralRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E9129BEAE2A00079FB6 /* PeripheralRegistry.swift */; };
+		31666E9429C9165800079FB6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E9329C9165800079FB6 /* State.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +39,9 @@
 		31666E862980FCC500079FB6 /* BluetoothData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothData.swift; sourceTree = "<group>"; };
 		31666E882980FDC700079FB6 /* ProxiedPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxiedPeripheral.swift; sourceTree = "<group>"; };
 		31666E8A2980FDFF00079FB6 /* PeripheralProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralProxy.swift; sourceTree = "<group>"; };
+		31666E8F29BBCFE200079FB6 /* PeripheralRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralRegistration.swift; sourceTree = "<group>"; };
+		31666E9129BEAE2A00079FB6 /* PeripheralRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralRegistry.swift; sourceTree = "<group>"; };
+		31666E9329C9165800079FB6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,9 @@
 				31666E862980FCC500079FB6 /* BluetoothData.swift */,
 				31666E882980FDC700079FB6 /* ProxiedPeripheral.swift */,
 				31666E8A2980FDFF00079FB6 /* PeripheralProxy.swift */,
+				31666E8F29BBCFE200079FB6 /* PeripheralRegistration.swift */,
+				31666E9129BEAE2A00079FB6 /* PeripheralRegistry.swift */,
+				31666E9329C9165800079FB6 /* State.swift */,
 			);
 			path = "Toothy CLI";
 			sourceTree = "<group>";
@@ -143,9 +152,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31666E9229BEAE2A00079FB6 /* PeripheralRegistry.swift in Sources */,
 				31666E852980FB4E00079FB6 /* utils.swift in Sources */,
 				31666E8B2980FDFF00079FB6 /* PeripheralProxy.swift in Sources */,
+				31666E9029BBCFE200079FB6 /* PeripheralRegistration.swift in Sources */,
 				312BFF192967821700DAB5B5 /* main.swift in Sources */,
+				31666E9429C9165800079FB6 /* State.swift in Sources */,
 				31666E892980FDC700079FB6 /* ProxiedPeripheral.swift in Sources */,
 				31666E872980FCC500079FB6 /* BluetoothData.swift in Sources */,
 				31666E832980FB1A00079FB6 /* Central.swift in Sources */,

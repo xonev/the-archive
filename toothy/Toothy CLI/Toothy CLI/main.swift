@@ -10,8 +10,8 @@ import Foundation
 import OSLog
 
 let logger = Logger(subsystem: "com.stevenoxley.Toothy", category: "main")
-
-let central = Central(dispatchQueue: DispatchQueue(label: "CentralManagerQueue"))
+let state = State(peripheralRegistry: PeripheralRegistry())
+let central = Central(state: state, dispatchQueue: DispatchQueue(label: "CentralManagerQueue"))
 logger.debug("Created central")
 print("Type quit<enter> to quit")
 while let input = readLine() {

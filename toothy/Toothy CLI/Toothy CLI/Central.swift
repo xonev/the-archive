@@ -9,7 +9,7 @@ import CoreBluetooth
 import Foundation
 import EventDrivenSwift
 
-struct CentralManagerStateUpdate: Eventable {
+struct CentralManagerStateUpdated: Eventable {
     let state: CBManagerState
 }
 
@@ -21,10 +21,6 @@ struct PeripheralDiscovered: Eventable {
     let peripheralIdentifier: UUID
 }
 
-struct PeripheralConnected: Eventable {
-    let peripheralIdentifier: UUID
-}
-
 class CentralDelegate: NSObject, CBCentralManagerDelegate {
     let state: State
 
@@ -33,7 +29,7 @@ class CentralDelegate: NSObject, CBCentralManagerDelegate {
     }
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        CentralManagerStateUpdate(state: central.state).queue()
+        CentralManagerStateUpdated(state: central.state).queue()
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -77,12 +73,12 @@ class Central {
         self.state = state
         centralDelegate = CentralDelegate(state: state)
         central = CBCentralManager(delegate: centralDelegate, queue: dispatchQueue)
-        centralManagerStateUpdateListener = CentralManagerStateUpdate.addListener(self, onCentralManagerStateUpdate, executeOn: .listenerThread)
+        centralManagerStateUpdateListener = CentralManagerStateUpdated.addListener(self, onCentralManagerStateUpdate, executeOn: .listenerThread)
         readyForScanListener = ReadyForScan.addListener(self, onReadyForScan, executeOn: .listenerThread)
         peripheralDiscoveredListener = PeripheralDiscovered.addListener(self, onPeripheralDiscovered, executeOn: .listenerThread)
     }
 
-    func onCentralManagerStateUpdate(_ event: CentralManagerStateUpdate, _ priority: EventPriority, _ dispatchTime: DispatchTime) {
+    func onCentralManagerStateUpdate(_ event: CentralManagerStateUpdated, _ priority: EventPriority, _ dispatchTime: DispatchTime) {
         switch event.state {
         case .poweredOn:
             ReadyForScan(services: [BluetoothServices.fitnessMachine]).queue()
@@ -99,6 +95,7 @@ class Central {
         let registration = state.peripheralRegistry.getBy(identifier: event.peripheralIdentifier)
         proxiedPeripheral = ProxiedPeripheral(registration.peripheral, advertisementData: registration.advertisementData)
         logger.debug("Connecting to peripheral \(registration.peripheral.debugDescription)")
+        central.stopScan()
         central.connect(registration.peripheral)
     }
 }

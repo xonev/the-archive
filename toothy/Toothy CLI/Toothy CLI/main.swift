@@ -6,7 +6,6 @@
 //
 
 import CoreBluetooth
-import Foundation
 import OSLog
 
 let logger = Logger(subsystem: "com.stevenoxley.Toothy", category: "main")

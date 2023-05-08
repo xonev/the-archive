@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "EventHandler.processEvents(_:dispatchMethod:priority:):EventHandler.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in Central.init(dispatchQueue:):Central.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Central.onCentralManagerStateUpdate(_:_:_:):Central.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PeripheralProxy.onPeripheralServicesDiscovered(_:_:_:):PeripheralProxy.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.proxiedPeripheral.services">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Central.centralManager(_:didDiscover:advertisementData:rssi:):main.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Central.init(dispatchQueue:):Central.swift">
+      </ContextState>
+      <ContextState
+         contextName = "EventListener.addListener&lt;&#x3c4;_0_0&gt;(_:_:forEventType:executeOn:interestedIn:maximumAge:customFilter:):EventListener.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

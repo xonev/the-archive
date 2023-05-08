@@ -34,3 +34,6 @@ func adjustedGrade(initialGrade: Double, chainringFactor: Double) -> Double {
 adjustedGrade(initialGrade: -1.0, chainringFactor: 2.0)
 sin(atan(0.0))
 asin(sin(atan(-1.0)) * 2.0)
+
+let dict = [UUID(): "Some data", UUID(): "Other data"]
+dict.merging([UUID(): "This data"], uniquingKeysWith: {(value1, value2) in value1})

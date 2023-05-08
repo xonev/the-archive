@@ -32,7 +32,10 @@ class CentralDelegate: NSObject, CBCentralManagerDelegate {
         CentralManagerStateUpdated(state: central.state).queue()
     }
 
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+    private func centralManager(_ central: CBCentralManager,
+                        didDiscover peripheral:CBPeripheral,
+                        advertisementData: [String : Any],
+                        rssi RSSI: NSNumber) async {
         if state.peripheralRegistry.existsBy(identifier: peripheral.identifier) {
             logger.debug("Peripheral \(peripheral.debugDescription) has already been discovered")
             return
@@ -64,10 +67,11 @@ class Central {
     let state: State
     let central: CBCentralManager
     let centralDelegate: CentralDelegate
-    var centralManagerStateUpdateListener: EventListenerHandling?
-    var readyForScanListener: EventListenerHandling?
-    var peripheralDiscoveredListener: EventListenerHandling?
+    var centralManagerStateUpdateListener: EventListenerHandling!
+    var readyForScanListener: EventListenerHandling!
+    var peripheralDiscoveredListener: EventListenerHandling!
     var proxiedPeripheral: ProxiedPeripheral?
+    var peripheralProxy: PeripheralProxy?
 
     init(state: State, dispatchQueue: DispatchQueue?) {
         self.state = state
@@ -93,7 +97,11 @@ class Central {
 
     func onPeripheralDiscovered(_ event: PeripheralDiscovered, _ priority: EventPriority, _ dispatchTime: DispatchTime) {
         let registration = state.peripheralRegistry.getBy(identifier: event.peripheralIdentifier)
+        // It probably doesn't make sense to include the proxiedPeripheral and PeripheralProxy instantiation here. It would be better to break
+        // this business logic out into a separate class, and maintain the proxy state, etc. there. In fact, having a central place where related
+        // events are handled might be nice.
         proxiedPeripheral = ProxiedPeripheral(registration.peripheral, advertisementData: registration.advertisementData)
+        peripheralProxy = PeripheralProxy(proxiedPeripheral: proxiedPeripheral!, dispatchQueue: DispatchQueue(label: "PeripheralManagerQueue"))
         logger.debug("Connecting to peripheral \(registration.peripheral.debugDescription)")
         central.stopScan()
         central.connect(registration.peripheral)

@@ -8,13 +8,22 @@
 import Foundation
 
 class State {
-    var peripheralRegistry: PeripheralRegistry
+    var peripheralRegistry: PeripheralRegistry {
+        queue.sync {
+            return _peripheralRegistry
+        }
+    }
+    private var _peripheralRegistry: PeripheralRegistry
+    private let queue = DispatchQueue(label: "SerialStateDispatch")
 
     init(peripheralRegistry: PeripheralRegistry) {
-        self.peripheralRegistry = peripheralRegistry
+        self._peripheralRegistry = peripheralRegistry
     }
 
     func updatePeripheralRegistry(_ updateFunc: (PeripheralRegistry) -> PeripheralRegistry) {
-        peripheralRegistry = updateFunc(peripheralRegistry)
+        queue.sync {
+            _peripheralRegistry = updateFunc(_peripheralRegistry)
+        }
     }
+
 }

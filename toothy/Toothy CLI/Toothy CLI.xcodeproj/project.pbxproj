@@ -17,6 +17,8 @@
 		31666E9029BBCFE200079FB6 /* PeripheralRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E8F29BBCFE200079FB6 /* PeripheralRegistration.swift */; };
 		31666E9229BEAE2A00079FB6 /* PeripheralRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E9129BEAE2A00079FB6 /* PeripheralRegistry.swift */; };
 		31666E9429C9165800079FB6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E9329C9165800079FB6 /* State.swift */; };
+		31666E9629F63E6200079FB6 /* ServicesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E9529F63E6200079FB6 /* ServicesState.swift */; };
+		31666E9829F641A400079FB6 /* ServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31666E9729F641A400079FB6 /* ServiceState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +44,8 @@
 		31666E8F29BBCFE200079FB6 /* PeripheralRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralRegistration.swift; sourceTree = "<group>"; };
 		31666E9129BEAE2A00079FB6 /* PeripheralRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralRegistry.swift; sourceTree = "<group>"; };
 		31666E9329C9165800079FB6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		31666E9529F63E6200079FB6 /* ServicesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesState.swift; sourceTree = "<group>"; };
+		31666E9729F641A400079FB6 /* ServiceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,8 @@
 				31666E8F29BBCFE200079FB6 /* PeripheralRegistration.swift */,
 				31666E9129BEAE2A00079FB6 /* PeripheralRegistry.swift */,
 				31666E9329C9165800079FB6 /* State.swift */,
+				31666E9529F63E6200079FB6 /* ServicesState.swift */,
+				31666E9729F641A400079FB6 /* ServiceState.swift */,
 			);
 			path = "Toothy CLI";
 			sourceTree = "<group>";
@@ -152,6 +158,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31666E9629F63E6200079FB6 /* ServicesState.swift in Sources */,
 				31666E9229BEAE2A00079FB6 /* PeripheralRegistry.swift in Sources */,
 				31666E852980FB4E00079FB6 /* utils.swift in Sources */,
 				31666E8B2980FDFF00079FB6 /* PeripheralProxy.swift in Sources */,
@@ -161,6 +168,7 @@
 				31666E892980FDC700079FB6 /* ProxiedPeripheral.swift in Sources */,
 				31666E872980FCC500079FB6 /* BluetoothData.swift in Sources */,
 				31666E832980FB1A00079FB6 /* Central.swift in Sources */,
+				31666E9829F641A400079FB6 /* ServiceState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -39,6 +39,8 @@ alias grep="grep --color=auto"
 alias sftp='with-readline sftp'
 alias worktree='/Users/soxley/scripts/worktree.sh'
 alias devops_wt='/Users/soxley/scripts/devops_wt.sh'
+alias gbc='git branch --merged | egrep -v "(^\*|^\+|main|develop|master)" | xargs git branch -d'
+alias gbC='git branch --merged | egrep -v "(^\*|^\+|main|develop|master)" | xargs git branch -D'
 
 # $HARDWARE can be exported in ~/.environment.sh
 if [[ "${HARDWARE-}" == "seeq" ]]; then

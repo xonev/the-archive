@@ -8,7 +8,7 @@
 import Foundation
 import CoreBluetooth
 
-class PeripheralRegistration {
+struct PeripheralRegistration {
     let identifier: UUID
     let peripheral: CBPeripheral
     let advertisementData: [String: Any]

@@ -2,3 +2,4 @@
 .cpcache
 rtoham-scraper/*.csv
 rtoham-scraper/*/*.csv
+.DS_Store

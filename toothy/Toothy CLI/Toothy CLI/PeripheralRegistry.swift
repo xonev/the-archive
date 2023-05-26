@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PeripheralRegistry {
+struct PeripheralRegistry {
     let registry: [UUID: PeripheralRegistration]
 
     init() {

@@ -9,7 +9,7 @@ import CoreBluetooth
 import OSLog
 
 let logger = Logger(subsystem: "com.stevenoxley.Toothy", category: "main")
-let state = State(peripheralRegistry: PeripheralRegistry())
+let state = State(peripheralRegistry: PeripheralRegistry(), servicesState: ServicesState())
 let central = Central(state: state, dispatchQueue: DispatchQueue(label: "CentralManagerQueue"))
 logger.debug("Created central")
 print("Type quit<enter> to quit")

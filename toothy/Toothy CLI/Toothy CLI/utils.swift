@@ -10,3 +10,4 @@ import Foundation
 func opt<T>(_ opt: Optional<T>, withDefault def: T) -> T {
     return opt != nil ? opt! : def
 }
+

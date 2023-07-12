@@ -20,15 +20,19 @@ struct ServicesState {
     }
 
     func getBy(identifier: CBUUID) -> ServiceState {
-        return serviceStates[identifier]!
+        serviceStates[identifier]!
     }
 
     func update(identifier: CBUUID, serviceState: ServiceState) -> ServicesState {
-        return ServicesState(
+        ServicesState(
             serviceStates.merging(
                 [identifier: serviceState],
                 uniquingKeysWith: {(state1, state2) in state1}
             )
         )
+    }
+
+    func isDiscoveryCompleted() -> Bool {
+        serviceStates.allSatisfy({ $0.value.isDiscoveryCompleted })
     }
 }

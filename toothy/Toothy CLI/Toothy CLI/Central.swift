@@ -100,7 +100,7 @@ class Central {
         // It probably doesn't make sense to include the proxiedPeripheral and PeripheralProxy instantiation here. It would be better to break
         // this business logic out into a separate class, and maintain the proxy state, etc. there. In fact, having a central place where related
         // events are handled might be nice.
-        proxiedPeripheral = ProxiedPeripheral(registration.peripheral, advertisementData: registration.advertisementData)
+        proxiedPeripheral = ProxiedPeripheral(registration.peripheral, state: state, advertisementData: registration.advertisementData)
         peripheralProxy = PeripheralProxy(proxiedPeripheral: proxiedPeripheral!, dispatchQueue: DispatchQueue(label: "PeripheralManagerQueue"))
         logger.debug("Connecting to peripheral \(registration.peripheral.debugDescription)")
         central.stopScan()

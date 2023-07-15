@@ -4,3 +4,6 @@
 [submodule "tralina.net"]
 	path = tralina.net
 	url = git@github.com:xonev/tralina.net.git
+[submodule "nudgsicle/nudgsicle.com/themes/ananke"]
+	path = nudgsicle/nudgsicle.com/themes/ananke
+	url = https://github.com/theNewDynamic/gohugo-theme-ananke.git

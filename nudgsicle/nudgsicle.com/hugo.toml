@@ -1,0 +1,9 @@
+baseURL = 'https://www.nudgsicle.com/'
+languageCode = 'en-us'
+title = 'Nudgsicle'
+theme = 'ananke'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

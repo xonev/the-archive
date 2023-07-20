@@ -2,6 +2,8 @@ baseURL = 'https://www.nudgsicle.com/'
 languageCode = 'en-us'
 title = 'Nudgsicle'
 theme = 'ananke'
+[params]
+  description = 'A tool for improving and streamlining code review.'
 
 [markup]
   [markup.goldmark]

@@ -6,7 +6,7 @@ draft: false
 
 # What is Nudgsicle?
 
-{{< imgresize src="logo-sketch.png" alt="Nudgsicle 'logo'" title="Nudgsicle" >}}
+{{< imgresize src="logo-sketch.png" alt="Nudgsicle 'logo'" title="Nudgsicle" size="x100" >}}
 
 Nudgsicle is a tool that will help you get your team's code reviewed and merged faster. It provides timely reminders about Pull Requests that still need review, so you can ship code more quickly and consistently. Sign up here to receive updates and get notified when it's available!
 

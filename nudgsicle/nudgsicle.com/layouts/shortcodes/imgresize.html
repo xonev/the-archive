@@ -1,3 +1,3 @@
-{{ $image := resources.GetMatch (.Get "src") }}
-{{ $image := $image.Resize "x100" }}
-<img src="{{ $image.RelPermalink }}" alt="{{ .Get " alt" }}" title="{{ .Get " title" }}" />
+{{ $image := .Page.Resources.GetMatch (.Get "src") }}
+{{ $image := $image.Resize (.Get "size") }}
+<img src="{{ $image.RelPermalink }}" alt="{{ .Get "alt" }}" title="{{ .Get "title" }}" />

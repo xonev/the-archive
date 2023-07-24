@@ -2,10 +2,30 @@ baseURL = 'https://www.nudgsicle.com/'
 languageCode = 'en-us'
 title = 'Nudgsicle'
 theme = 'ananke'
+
+sectionPagesMenu = "main"
+
 [params]
   description = 'A tool for improving and streamlining code review.'
+
+[[params.ananke_socials]]
+name = "twitter"
+url = "https://twitter.com/xonev"
+
+[[params.ananke_socials]]
+name = "mastodon"
+url = "https://fosstodon.org/@xonev"
+
+[[params.ananke_socials]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/stevenoxley"
 
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+  filename = "sitemap.xml"

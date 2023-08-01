@@ -4,6 +4,7 @@ title = 'Nudgsicle'
 theme = 'ananke'
 
 sectionPagesMenu = "main"
+uglyURLs = true
 
 [params]
   description = 'A tool for improving and streamlining code review.'

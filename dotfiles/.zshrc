@@ -41,6 +41,10 @@ alias worktree='/Users/soxley/scripts/worktree.sh'
 alias devops_wt='/Users/soxley/scripts/devops_wt.sh'
 alias gbc='git branch --merged | egrep -v "(^\*|^\+|main|develop|master)" | xargs git branch -d'
 alias gbC='git branch --merged | egrep -v "(^\*|^\+|main|develop|master)" | xargs git branch -D'
+alias gld='git log --format="%h | %s [%an]"'
+alias ta=', terragrunt apply'
+alias ti=', terragrunt init'
+alias t=', terragrunt'
 
 # $HARDWARE can be exported in ~/.environment.sh
 if [[ "${HARDWARE-}" == "seeq" ]]; then
@@ -166,3 +170,5 @@ fi
 export CLOUDSDK_PYTHON="/usr/local/bin/python3.9"
 
 mkdir -p ~/log/tmux
+
+PATH="$PATH:$HOME/scripts"

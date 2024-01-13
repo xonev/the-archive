@@ -37,7 +37,7 @@
           data-rows (rest rows)]
       (map #(zipmap header-row %) data-rows))))
 
-; I don't recall what I was trying to accomplish with this code. 
+; I don't recall what I was trying to accomplish with this code.
 (defn cart-product
   ([row-colls] (cart-product (map #(conj [] %) (first row-colls)) (rest row-colls)))
   ([product row-colls]

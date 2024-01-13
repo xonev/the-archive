@@ -71,9 +71,9 @@ class PeripheralProxy {
             interestedIn: .custom,
             customFilter: proxiedPeripheralEventFilter
         )
-        peripheralServicesDiscoveredListener = PeripheralServicesDiscovered.addListener(
+        peripheralServicesDiscoveredListener = PeripheralDiscoveryCompleted.addListener(
             self,
-            onPeripheralServicesDiscovered,
+            onPeripheralDiscoveryCompleted,
             executeOn: .listenerThread,
             interestedIn: .custom,
             customFilter: proxiedPeripheralEventFilter
@@ -81,8 +81,7 @@ class PeripheralProxy {
     }
 
     func onProxiedPeripheralConnected(_ event: PeripheralConnected, _ priority: EventPriority, _ dispatchTime: DispatchTime) {
-        logger.debug("PeripheralProxy for \(String(describing: self.proxiedPeripheral)): startAdvertising")
-        // peripheral.startAdvertising(proxiedPeripheral.advertisementData)
+        logger.debug("PeripheralProxy for \(String(describing: self.proxiedPeripheral)): connected")
     }
 
 
@@ -91,5 +90,15 @@ class PeripheralProxy {
             return true
         }
         return false
+    }
+
+    func onPeripheralDiscoveryCompleted(_ event: PeripheralDiscoveryCompleted, _ priority: EventPriority, _ dispatchTime: DispatchTime) {
+        for service in proxiedPeripheral.services! {
+            var mutableService = CBMutableService(type: service.uuid, primary: service.isPrimary)
+            mutableService.characteristics = service.characteristics
+            mutableService.includedServices = service.includedServices
+            peripheral.add(mutableService)
+        }
+        peripheral.startAdvertising(nil)
     }
 }

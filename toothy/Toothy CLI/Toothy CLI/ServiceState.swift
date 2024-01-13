@@ -13,5 +13,5 @@ struct ServiceState {
     var service: CBService
     var includedServicesRetrieved: Bool
     var characteristicsRetrieved: Bool
-    
+    var isDiscoveryCompleted: Bool { includedServicesRetrieved && characteristicsRetrieved }
 }

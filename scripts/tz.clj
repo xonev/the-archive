@@ -33,7 +33,11 @@
      (->> tzs
           vals
           (map #(ZoneId/of %))
-          (map #(.withZoneSameInstant zoned-time %))))))
+          (cons tz)
+          distinct
+          (map #(.withZoneSameInstant zoned-time %))
+          (sort-by #(.getOffset %))
+          reverse))))
 
 (defn print-converted-datetimes
   [args]

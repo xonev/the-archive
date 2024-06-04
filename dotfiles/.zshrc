@@ -172,4 +172,5 @@ export CLOUDSDK_PYTHON="/usr/local/bin/python3.9"
 
 mkdir -p ~/log/tmux
 
+export LESS="-F -X -R"
 PATH="$PATH:$HOME/scripts"

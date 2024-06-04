@@ -122,7 +122,7 @@ else
 fi
 
 # Set this up for StevenOxley.com. It can be removed once StevenOxley.com is updated
-eval "$(rbenv init -)"
+eval "$(rbenv init - zsh)"
 
 # fzf oh-my-zsh plugin settings: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/fzf
 FZF_BASE="${homebrew_dir}/bin/fzf"
@@ -162,6 +162,9 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 
 source ~/secrets/teamcity.zsh
 
+if [[ -f ~/.creds/creds.sh ]]; then
+    source ~/.creds/creds.sh
+fi
 if [[ -f ~/.creds/seeq_creds.sh ]]; then
     source ~/.creds/seeq_creds.sh
 fi

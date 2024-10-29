@@ -9,7 +9,7 @@ fi
 
 user_id="$1"
 image_name="xonev/debug-$user_id"
-docker build --build-arg "userId=$user_id" --tag "$image_name":latest .
+docker build --platform=linux/amd64 --build-arg "userId=$user_id" --tag "$image_name":latest .
 
 if [[ $# -eq 2 ]]; then
     version="$2"

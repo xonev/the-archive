@@ -8,7 +8,7 @@ images: ["/articles/code-review-bing-generated.jpeg"]
 
 Code review -- at least the type of code review I'm talking about in this blog series -- is the process of asynchronously examining and commenting on someone else’s code before it is merged into the main branch of your source control repo. It is a common practice in software development, but why do we do it? Should we do it? What are the benefits of code review?
 
-![People reviewing code](/articles/code-review-bing-generated.jpeg)
+![Cartoon of people reviewing code](/articles/code-review-bing-generated.jpeg)
 
 ## Review Code for Software Quality
 

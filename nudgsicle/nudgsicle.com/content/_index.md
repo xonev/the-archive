@@ -6,9 +6,23 @@ draft: false
 
 # What is Nudgsicle?
 
-{{< imgresize src="logo-sketch.png" alt="Nudgsicle 'logo'" title="Nudgsicle" size="x100" >}}
+Nudgsicle is a tool that will help you get your team's code reviewed and merged faster. It provides timely reminders about Pull Requests that still need review, so you can ship code more quickly and consistently.
 
-Nudgsicle is a tool that will help you get your team's code reviewed and merged faster. It provides timely reminders about Pull Requests that still need review, so you can ship code more quickly and consistently. Sign up here to receive updates and get notified when it's available!
+We've been using it on my team at my employer for years now, and it has helped us keep code flowing to production. See a (redacted) screenshot of it in action below.
+
+![Screenshot of the pr-reminders bot in action at Seeq.](/images/slack-screenshot-1.webp)
+
+# Pre-order please?
+
+You can pre-order six months of Nudgsicle for only $5. I haven't decided on the final pricing yet, but it will likely be $5 / month or more. So you'll be getting six months for the price of one!
+
+<form action="/api/checkout/session">
+    <input class="db w-100 mv2 white pa3 bn hover-shadow hover-bg-black bg-animate bg-black" type="submit" value="Pre-order Now!">
+</form>
+
+# Find out more?
+
+If you're not ready to pre-order, that's ok (I'm only a little sad and let's be honest I didn't expect you to be). Instead of pre-ordering, you can sign up below to receive updates and get notified when it's available.
 
 <script async src="https://eomail6.com/form/a9d5dfbc-2259-11ee-8e25-abc8bf461d43.js" data-form="a9d5dfbc-2259-11ee-8e25-abc8bf461d43"></script>
 

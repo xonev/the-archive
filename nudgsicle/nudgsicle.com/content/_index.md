@@ -16,7 +16,7 @@ We've been using it on my team at my employer for years now, and it has helped u
 
 You can pre-order six months of Nudgsicle for only $5. I haven't decided on the final pricing yet, but it will likely be $5 / month or more. So you'll be getting six months for the price of one!
 
-<form action="/api/checkout/session">
+<form action="/api/checkout/session" method="POST">
     <input class="db w-100 mv2 white pa3 bn hover-shadow hover-bg-black bg-animate bg-black" type="submit" value="Pre-order Now!">
 </form>
 

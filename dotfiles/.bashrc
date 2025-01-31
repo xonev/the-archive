@@ -19,6 +19,8 @@ export PS1="\h:\W\[\033[32m\]\$(parse_git_branch)\[\033[00m\]$ "
 export WORKTREE_INITIALS=sajo
 export WORKTREE_DIRECTORY_PREFIX=/Users/soxley/workspace/seeq/crab
 export WORKTREE_DEVELOP_SESSION=develop
+export TERRAGRUNT_PROVIDER_CACHE=1
+export TERRAGRUNT_PROVIDER_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
 alias tm="~/.tmux/tmux.sh"
 alias grep="grep --color=auto"

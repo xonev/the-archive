@@ -59,6 +59,9 @@ else
   INSTALL=("/usr/bin/install" -d -o "${USER}" -g "${GROUP}" -m "0755")
 fi
 
+export TERRAGRUNT_PROVIDER_CACHE=1
+export TERRAGRUNT_PROVIDER_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+
 # All path manipulations go here for easier understanding of ordering, etc.
 # Bin path ordering is important
 eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"

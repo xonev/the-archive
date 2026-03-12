@@ -250,3 +250,14 @@ mkdir -p ~/log/tmux
 
 export LESS="-F -X -R"
 PATH="$PATH:$HOME/scripts"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+# pnpm
+export PNPM_HOME="/Users/sajo/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
